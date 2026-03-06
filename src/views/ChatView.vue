@@ -6,10 +6,10 @@
     <div v-if="!activeScene" class="flex-1 flex flex-col justify-center">
       <p class="text-center text-light-ink mb-6">选择一个聊天场景</p>
       <ChatScenePicker @select="selectScene" />
-      <p v-if="!hasClaudeKey()" class="text-center text-sm text-light-ink mt-6">
-        需要先在 <router-link to="/settings" class="text-deep-rose underline">设置</router-link> 中配置 Claude API Key，或在 .env 文件中设置 VITE_CLAUDE_API_KEY
+      <p v-if="!hasChatKey()" class="text-center text-sm text-light-ink mt-6">
+        需要先在 <router-link to="/settings" class="text-deep-rose underline">设置</router-link> 中配置 MiniMax API Key，或在 .env 文件中设置 VITE_MINIMAX_API_KEY
       </p>
-      <p v-else-if="hasEnvClaudeKey()" class="text-center text-xs text-light-ink/60 mt-6">
+      <p v-else-if="hasEnvChatKey()" class="text-center text-xs text-light-ink/60 mt-6">
         已从环境变量读取 API Key
       </p>
     </div>
@@ -56,7 +56,7 @@ import ChatInput from '@/components/ChatInput.vue'
 import { useSettings } from '@/composables/use_settings'
 
 const base = import.meta.env.BASE_URL
-const { claudeKey, hasClaudeKey, hasEnvClaudeKey } = useSettings()
+const { minimaxKey, hasChatKey, hasEnvChatKey } = useSettings()
 
 const activeScene = ref(null)
 const messages = ref([])
@@ -103,37 +103,35 @@ const scrollToBottom = () => {
 }
 
 const sendMessage = async (text) => {
-  if (!hasClaudeKey()) return
+  if (!hasChatKey()) return
 
   messages.value.push({ role: 'user', content: text })
   scrollToBottom()
   loading.value = true
 
   try {
-    const apiMessages = messages.value.map(m => ({
-      role: m.role,
-      content: m.content
-    }))
+    const apiMessages = [
+      { role: 'system', content: activeScene.value.system },
+      ...messages.value.map(m => ({ role: m.role, content: m.content }))
+    ]
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/minimax/v1/text/chatcompletion_v2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': claudeKey.value,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'Authorization': `Bearer ${minimaxKey.value}`
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: activeScene.value.system,
+        model: 'MiniMax-M2.5',
+        max_tokens: 2048,
         messages: apiMessages
       })
     })
 
     if (res.ok) {
       const data = await res.json()
-      const reply = data.content[0].text
+      const msg = data.choices[0].message
+      const reply = msg.content || msg.reasoning_content || '...'
       messages.value.push({ role: 'assistant', content: reply })
     } else {
       messages.value.push({ role: 'assistant', content: '抱歉，出了点问题...' })

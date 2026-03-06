@@ -10,5 +10,14 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
-  base: '/xiaoyu-ziying/'
+  base: '/xiaoyu-ziying/',
+  server: {
+    proxy: {
+      '/api/minimax': {
+        target: 'https://api.minimax.chat',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/minimax/, '')
+      }
+    }
+  }
 })

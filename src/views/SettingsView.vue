@@ -2,17 +2,17 @@
   <div class="max-w-[700px] mx-auto px-4 py-8">
     <h1 class="font-serif text-3xl text-ink text-center mb-8 tracking-wider">设置</h1>
 
-    <!-- Claude API -->
+    <!-- MiniMax API -->
     <div class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-6">
-      <h2 class="font-serif text-lg text-ink mb-4">Claude API</h2>
+      <h2 class="font-serif text-lg text-ink mb-4">MiniMax API</h2>
       <p class="text-sm text-light-ink mb-3">用于 AI 聊天功能，密钥仅存储在浏览器本地</p>
-      <input v-model="claudeKey" type="password" placeholder="sk-ant-..." class="w-full px-4 py-2.5 rounded-lg border border-warm bg-cream/50 text-ink text-sm outline-none focus:border-rose transition-colors">
+      <input v-model="minimaxKey" type="password" placeholder="sk-api-..." class="w-full px-4 py-2.5 rounded-lg border border-warm bg-cream/50 text-ink text-sm outline-none focus:border-rose transition-colors">
       <div class="flex items-center gap-2 mt-3">
-        <button @click="testClaude" :disabled="!claudeKey || testingClaude" class="px-4 py-1.5 rounded-full text-sm bg-deep-rose text-white hover:bg-rose transition-colors disabled:opacity-40">
-          {{ testingClaude ? '测试中...' : '测试连接' }}
+        <button @click="testMinimax" :disabled="!minimaxKey || testingChat" class="px-4 py-1.5 rounded-full text-sm bg-deep-rose text-white hover:bg-rose transition-colors disabled:opacity-40">
+          {{ testingChat ? '测试中...' : '测试连接' }}
         </button>
-        <span v-if="claudeStatus" class="text-sm" :class="claudeStatus === 'ok' ? 'text-green-600' : 'text-red-500'">
-          {{ claudeStatus === 'ok' ? '连接成功' : '连接失败' }}
+        <span v-if="chatStatus" class="text-sm" :class="chatStatus === 'ok' ? 'text-green-600' : 'text-red-500'">
+          {{ chatStatus === 'ok' ? '连接成功' : '连接失败' }}
         </span>
       </div>
     </div>
@@ -52,36 +52,34 @@ import { ref } from 'vue'
 import { useSettings } from '@/composables/use_settings'
 import { testConnection } from '@/libs/github'
 
-const { claudeKey, githubToken, githubOwner, githubRepo } = useSettings()
+const { minimaxKey, githubToken, githubOwner, githubRepo } = useSettings()
 
-const testingClaude = ref(false)
-const claudeStatus = ref('')
+const testingChat = ref(false)
+const chatStatus = ref('')
 const testingGithub = ref(false)
 const githubStatus = ref('')
 
-const testClaude = async () => {
-  testingClaude.value = true
-  claudeStatus.value = ''
+const testMinimax = async () => {
+  testingChat.value = true
+  chatStatus.value = ''
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/minimax/v1/text/chatcompletion_v2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': claudeKey.value,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'Authorization': `Bearer ${minimaxKey.value}`
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'MiniMax-M2.5',
         max_tokens: 16,
         messages: [{ role: 'user', content: 'hi' }]
       })
     })
-    claudeStatus.value = res.ok ? 'ok' : 'fail'
+    chatStatus.value = res.ok ? 'ok' : 'fail'
   } catch {
-    claudeStatus.value = 'fail'
+    chatStatus.value = 'fail'
   }
-  testingClaude.value = false
+  testingChat.value = false
 }
 
 const testGithub = async () => {
