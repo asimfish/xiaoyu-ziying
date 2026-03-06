@@ -1,0 +1,296 @@
+// 资源路径前缀，自动适配 base 配置
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
+const IMG = `${BASE}/assets/images`
+const EXTRA = `${BASE}/assets/extra`
+const CHAT_IMG = `${BASE}/assets/chat-images`
+const CHAT_VID = `${BASE}/assets/chat-videos`
+const CHAT_EMOJI = `${BASE}/assets/chat-emoji`
+
+// 上篇: 爱人
+export const lovePart = {
+  label: '上篇',
+  title: '爱人',
+  subtitle: '2025.05 — 2026.02.27',
+  theme: 'love'
+}
+
+// 下篇: 朋友
+export const friendPart = {
+  label: '下篇',
+  title: '朋友',
+  subtitle: '2026.02.28 — 至今',
+  theme: 'friend'
+}
+
+// 封面开场合照
+export const openingPhoto = `${IMG}/together/1.jpg`
+
+// 章节数据
+export const loveChapters = [
+  {
+    number: '第一章',
+    title: '相遇',
+    period: '2025年5月 — 9月',
+    blocks: [
+      { type: 'narrative', text: '五月的某一天，我们在网络的某个角落相遇了。那时候的小鱼，在梓樱眼里是一个专注自己事情的人，她觉得那样很好。' },
+      { type: 'narrative', text: '七月底，四成喜欢就够勇敢地说出口了。梓樱后来笑着说，"刚在一起的时候其实都没见我长什么样子"。但第一次见面时，那种真诚的感觉，两个人都记得。' },
+      { type: 'quote', text: '"第一次你盯着我说话的时候，我就觉得小鱼很真诚。"', from: '梓樱' },
+      { type: 'photo-single', src: `${EXTRA}/1.jpg`, caption: '最初的日子' },
+      { type: 'narrative', text: '九月，异地恋的日子正式开始。北京和上海，一千多公里的距离，被每天凌晨两三点的晚安填满。小鱼说"现在多努力就是为了以后能天天在一起"，梓樱心疼地回"那还是身体最重要，别过度透支现在"。' },
+      { type: 'photo-grid', cols: 2, images: [`${IMG}/2025-09/01.jpg`, `${IMG}/2025-09/02.jpg`], caption: '九月的日常分享' },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-09/20250928-200746-783414.jpg`,
+          `${CHAT_IMG}/2025-09/20250928-201217-655790.jpg`,
+          `${CHAT_IMG}/2025-09/20250928-210359-409308.jpg`,
+          `${CHAT_IMG}/2025-09/20250928-210135-859611.jpg`,
+          `${CHAT_IMG}/2025-09/20250929-175618-567890.jpg`,
+          `${CHAT_IMG}/2025-09/20250928-215046-768967.jpg`
+        ],
+        caption: '九月，我们分享的那些瞬间'
+      },
+      { type: 'video', src: `${CHAT_VID}/2025-09/20250929125510.mp4`, caption: '九月的小视频' },
+      { type: 'quote', text: '"小鱼了解的是现在的和未来的。"\n"我想和你一直在一起，不想有什么期限。"', from: '梓樱 · 九月深夜长谈' }
+    ]
+  },
+  {
+    number: '第二章',
+    title: '在一起的日子',
+    period: '2025年10月 — 11月',
+    blocks: [
+      { type: 'date', text: '十月一日 · 国庆' },
+      { type: 'narrative', text: '国庆节，小鱼从公司直奔高铁站，去上海。这是确认关系后的第二次见面。一起吃自助，一起逛街，梓樱说"好喜欢小鱼送我的这个白色的包，感觉很百搭"。' },
+      { type: 'narrative', text: '十月八日分别的时候，梓樱说了三个字——"舍不得"。' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2025-10/01.jpg`, `${IMG}/2025-10/02.jpg`, `${IMG}/2025-10/03.jpg`, `${IMG}/2025-10/04.jpg`],
+        caption: '国庆见面的日子'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-10/20251009-005015-292690.png`, `${CHAT_IMG}/2025-10/20251009-005129-323337.png`,
+          `${CHAT_IMG}/2025-10/20251009-004643-260560.png`, `${CHAT_IMG}/2025-10/20251013-190626-566986.jpg`,
+          `${CHAT_IMG}/2025-10/20251013-185658-533428.jpg`, `${CHAT_IMG}/2025-10/20251021-201223-326455.jpg`
+        ],
+        caption: '十月，我们的日常'
+      },
+      { type: 'date', text: '十月中旬 · 最甜的时候' },
+      { type: 'narrative', text: '那段时间，我们有说不完的话。互相点外卖，互相寄小礼物，每天分享生活里的每一个细节。', emoji: `${CHAT_EMOJI}/dbb558cd79fb15f8252881386ec11fbd.gif` },
+      { type: 'quote', text: '"和你在一起好开心。"\n"想每天都和你在一起。"', from: '梓樱 · 十月' },
+      { type: 'date', text: '十月十九日 · 她来北京' },
+      { type: 'narrative', text: '梓樱从上海飞到北京。我们一起唱了歌，她后来总是回忆起"第一次和小鱼唱歌的时候"。送她去高铁站的那天，小鱼说"谢谢宝宝来找我"。' },
+      {
+        type: 'photo-grid', cols: 3,
+        images: [`${IMG}/2025-10/05.jpg`, `${IMG}/2025-10/06.jpg`, `${IMG}/2025-10/07.jpg`],
+        caption: '她来北京找你'
+      },
+      { type: 'video', src: `${CHAT_VID}/2025-10/20251030212906.mp4`, caption: '十月的小视频' },
+      { type: 'photo-together', src: `${IMG}/together/2.jpg`, caption: '在一起的时光' },
+      { type: 'date', text: '十一月七日 · 100天' },
+      { type: 'narrative', text: '梓樱先记起来的——"周四貌似是和宝宝在一起100天"。小鱼纠正她说明天才是。一百天，说长不长，说短不短，但足够让两个人的生活缠绕在一起。' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2025-11/01.jpg`, `${IMG}/2025-11/02.jpg`, `${IMG}/2025-11/03.jpg`, `${IMG}/2025-11/04.jpg`],
+        caption: '在一起100天'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-11/20251110-005519-489826.jpg`, `${CHAT_IMG}/2025-11/20251109-192318-492666.jpg`,
+          `${CHAT_IMG}/2025-11/20251113-145400-674356.jpg`, `${CHAT_IMG}/2025-11/20251112-124825-810443.jpg`,
+          `${CHAT_IMG}/2025-11/20251115-192518-377931.jpg`, `${CHAT_IMG}/2025-11/20251101-004809-437484.jpg`
+        ],
+        caption: '十一月的点点滴滴'
+      },
+      { type: 'quote', text: '"小鱼是我生活中的惊喜。"\n"时刻牵挂，见面惊喜。"', from: '梓樱 · 一百天' },
+      { type: 'photo-single', src: `${EXTRA}/2.jpg`, caption: '一百天的记忆' },
+      { type: 'date', text: '十一月下旬 · 北京' },
+      { type: 'narrative', text: '梓樱又来北京了。为了赶时间，她把高铁改成了飞机，着急地说"小鱼你别生气，我下次一定早点出"。小鱼去首都机场接她，这是她第一次来北京这个地方。' },
+      {
+        type: 'photo-grid', cols: 3,
+        images: [`${IMG}/2025-11/05.jpg`, `${IMG}/2025-11/06.jpg`, `${IMG}/2025-11/07.jpg`],
+        caption: '十一月，她来北京'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-11/20251116-181559-253842.jpg`, `${CHAT_IMG}/2025-11/20251119-232550-364151.jpg`,
+          `${CHAT_IMG}/2025-11/20251119-232301-808715.jpg`, `${CHAT_IMG}/2025-11/20251124-175120-193979.jpg`,
+          `${CHAT_IMG}/2025-11/20251128-170644-181969.jpg`, `${CHAT_IMG}/2025-11/20251128-191208-429633.jpg`
+        ],
+        caption: '十一月的更多回忆'
+      },
+      { type: 'video', src: `${CHAT_VID}/2025-11/20251129175618.mp4`, caption: '十一月的小视频' }
+    ]
+  },
+  {
+    number: '第三章',
+    title: '冬天的礼物',
+    period: '2025年12月 — 2026年1月',
+    blocks: [
+      { type: 'narrative', text: '十二月，北方已经很冷了。小鱼给梓樱买暖手宝、寄充电器，用各种小东西填满异地的空隙。距离很远，但心意总能抵达。' },
+      { type: 'date', text: '十二月六日' },
+      { type: 'narrative', text: '这天梓樱回忆起了很多甜蜜的瞬间——"第一次亲小鱼的时候"、"第一次和小鱼唱歌的时候"。她说"没有和小鱼在一起开心"，说"超级喜欢不会分开"。那些话，每一个字都是真的。' },
+      { type: 'date', text: '十二月十一日 · 她来北京' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2025-12/01.jpg`, `${IMG}/2025-12/02.jpg`, `${IMG}/2025-12/03.jpg`, `${IMG}/2025-12/04.jpg`],
+        caption: '十二月，北京的日子'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-12/20251207-163337-734931.jpg`, `${CHAT_IMG}/2025-12/20251207-155735-495112.jpg`,
+          `${CHAT_IMG}/2025-12/20251211-151143-139022.jpg`, `${CHAT_IMG}/2025-12/20251211-144230-153358.jpg`,
+          `${CHAT_IMG}/2025-12/20251207-161838-174587.jpg`, `${CHAT_IMG}/2025-12/20251211-144233-278502.jpg`
+        ],
+        caption: '十二月，我们分享的日常'
+      },
+      { type: 'video', src: `${CHAT_VID}/2025-12/20251208161135.mp4`, caption: '十二月的小视频' },
+      { type: 'quote', text: '"和小鱼在一起开心了很多，因为小鱼肯定会回我的消息，而且把我放在很重要的位置。"', from: '梓樱 · 十二月' },
+      { type: 'photo-together', src: `${IMG}/together/3.jpg`, caption: '冬天里的温暖' },
+      { type: 'date', text: '平安夜 · 圣诞' },
+      { type: 'narrative', text: '平安夜小鱼给梓樱寄了花束和花茶。她说"好可爱的花束"、"这个花束我就超级喜欢"。每次见面都有花束，这是我们之间不成文的仪式。', emoji: `${CHAT_EMOJI}/d04e0b5baa03e09a0f9d83f7c36b6afd.gif` },
+      {
+        type: 'photo-grid', cols: 3,
+        images: [`${IMG}/2025-12/05.jpg`, `${IMG}/2025-12/06.jpg`, `${IMG}/2025-12/07.jpg`],
+        caption: '平安夜的花束与圣诞'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2025-12/20251219-133507-386771.jpg`, `${CHAT_IMG}/2025-12/20251219-140221-244897.jpg`,
+          `${CHAT_IMG}/2025-12/20251219-140835-448199.jpg`, `${CHAT_IMG}/2025-12/20251226-125122-218970.jpg`,
+          `${CHAT_IMG}/2025-12/20251211-144345-777223.jpg`, `${CHAT_IMG}/2025-12/20251211-151110-361604.jpg`
+        ],
+        caption: '冬天里的更多瞬间'
+      },
+      { type: 'video', src: `${CHAT_VID}/2025-12/20251226193359.mp4`, caption: '圣诞的小视频' },
+      { type: 'narrative', text: '梓樱买了一盒特别好看的明信片，说"下次写给小鱼"。' },
+      { type: 'photo-single', src: `${EXTRA}/3.jpg`, caption: '冬天的日常' },
+      { type: 'date', text: '十二月三十一日 · 跨年' },
+      { type: 'narrative', text: '我们没能在一起跨年。梓樱在赶稿，小鱼在看跨年晚会。23:59:53，小鱼发了"新年快乐宝宝"。00:00:42，梓樱回"新年快乐小鱼"、"希望小鱼26年更开心更幸运一些"。' },
+      { type: 'narrative', text: '隔着屏幕的跨年，也是一种在一起。' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2025-12/08.jpg`, `${IMG}/2025-12/09.jpg`],
+        caption: '跨年夜'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2026-01/20260101-172105-209750.jpg`, `${CHAT_IMG}/2026-01/20260104-231214-379704.jpg`,
+          `${CHAT_IMG}/2026-01/20260105-092529-433852.jpg`, `${CHAT_IMG}/2026-01/20260110-121306-352338.jpg`,
+          `${CHAT_IMG}/2026-01/20260116-040609-230297.jpg`, `${CHAT_IMG}/2026-01/20260118-000343-357015.jpg`
+        ],
+        caption: '一月的日常分享'
+      },
+      { type: 'video', src: `${CHAT_VID}/2026-01/20260118000343.mp4`, caption: '一月的小视频' },
+      { type: 'date', text: '一月二十八日 · 凌晨长谈' },
+      { type: 'narrative', text: '这是我们之间一次很重要的对话。凌晨三点到六点，把心里话都说了出来。' },
+      { type: 'quote', text: '"闲下来还是挺想的，聊起来也很自然。"', from: '梓樱 · 凌晨四点' },
+      { type: 'quote', text: '"从给宝宝表白的那一天开始，我就已经想和你过一辈子了。"', from: '小鱼' }
+    ]
+  },
+  {
+    number: '第四章',
+    title: '最后一程',
+    period: '2026年2月',
+    blocks: [
+      { type: 'date', text: '二月六日 · 上海' },
+      { type: 'narrative', text: '小鱼在公司干到凌晨，然后直接去高铁站。到上海的那天，他说"最近一个月最开心的一天"。我们一起去了鲁迅公园，一起自习，一起吃饭。"多和你待一个小时就多开心一个小时。"' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2026-02/01.jpg`, `${IMG}/2026-02/02.jpg`, `${IMG}/2026-02/03.jpg`, `${IMG}/2026-02/04.jpg`],
+        caption: '二月，上海的日子'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2026-02/20260204-191155-238484.jpg`, `${CHAT_IMG}/2026-02/20260202-133115-861529.jpg`,
+          `${CHAT_IMG}/2026-02/20260212-234244-885740.jpg`, `${CHAT_IMG}/2026-02/20260212-234244-489745.jpg`
+        ],
+        caption: '二月初的日常'
+      },
+      { type: 'photo-together', src: `${IMG}/together/4.jpg`, caption: '多和你待一个小时就多开心一个小时' },
+      { type: 'date', text: '春节 · 各自回家' },
+      { type: 'narrative', text: '二月十一日，各自回家过年。梓樱梦到了小鱼，梦里的事让她醒来后忍不住笑。情人节那天，我们在线上打王者。她说"见面了一起玩"——还是期待着下一次见面的。' },
+      {
+        type: 'photo-grid', cols: 3,
+        images: [`${IMG}/2026-02/05.jpg`, `${IMG}/2026-02/06.jpg`, `${IMG}/2026-02/07.jpg`],
+        caption: '春节期间'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2026-02/20260216-142518-267546.jpg`, `${CHAT_IMG}/2026-02/20260217-161222-385566.jpg`,
+          `${CHAT_IMG}/2026-02/20260217-145448-643691.jpg`, `${CHAT_IMG}/2026-02/20260217-161454-137818.jpg`,
+          `${CHAT_IMG}/2026-02/20260218-120131-189299.jpg`, `${CHAT_IMG}/2026-02/20260219-164636-703803.jpg`,
+          `${CHAT_IMG}/2026-02/20260218-120231-557681.jpg`, `${CHAT_IMG}/2026-02/20260219-183340-143637.jpg`,
+          `${CHAT_IMG}/2026-02/20260222-141210-160126.jpg`
+        ],
+        caption: '二月的更多回忆'
+      },
+      { type: 'video', src: `${CHAT_VID}/2026-02/20260216223716.mp4`, caption: '二月的小视频' },
+      { type: 'photo-single', src: `${EXTRA}/4.jpg`, caption: '那些日子' },
+      { type: 'date', text: '二月底' },
+      { type: 'narrative', text: '二月底，我们决定换一种方式继续走下去。' },
+      { type: 'quote', text: '"谢谢你这段时间的陪伴和爱。你很好，有仪式感，包容我，情绪稳定。谢谢每一次见面时的花束，谢谢每天无数句的喜欢我，谢谢你关心我的情绪我的健康和我身边有关的一切。"', from: '梓樱' },
+      { type: 'narrative', text: '小鱼说："希望你过得很好，和以前一样自由快乐的幸福的。"梓樱回："谢谢你，希望你生活顺利。晚安小鱼。"小鱼说："和第一次微信聊天时一样，哈喽、晚安。"' },
+      { type: 'photo-single', src: `${IMG}/2026-02/08.jpg` },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2026-02/20260228-224609-531997.jpg`, `${CHAT_IMG}/2026-02/20260228-203057-608443.jpg`,
+          `${CHAT_IMG}/2026-02/20260216-113658-847299.jpg`
+        ]
+      },
+      { type: 'video', src: `${CHAT_VID}/2026-02/20260228224706.mp4` },
+      { type: 'narrative', text: '那天深夜，凌晨两点四十五分，梓樱又发来了一段消息。' },
+      { type: 'quote', text: '"最开始喜欢你的时候，觉得你不会为情所困，一直专注你自己的事情，让我觉得很钦佩。"\n\n"又想到你是否会因为有一段经历，而在下一次有所保留呢？想到这里我突然很难过。"', from: '梓樱 · 凌晨2:45' },
+      { type: 'narrative', text: '我们都曾默默写过很多信，却都没有寄出去。也许有些话，留在心里也是一种温柔。' }
+    ]
+  }
+]
+
+export const friendChapters = [
+  {
+    number: '第五章',
+    title: '新的开始',
+    period: '2026年3月 —',
+    blocks: [
+      { type: 'narrative', text: '梓樱同意做朋友。她说了一句很有意思的话——"那我们当朋友，我反而想给你发的会多一些，你会不会觉得我有毛病"。' },
+      { type: 'narrative', text: '事实证明，做了朋友之后，聊天反而变得更轻松了。想说什么就说什么，没有负担，只有默契。', emoji: `${CHAT_EMOJI}/0c28e9782bc2cb883df0a70443baed31.gif` },
+      { type: 'quote', text: '"跟你聊天还是很开心。"\n"跟你当好朋友就感觉会有超级多的话想和你说。"', from: '梓樱 · 三月' },
+      { type: 'narrative', text: '小鱼说想去变性当她闺蜜，梓樱笑着说"不要，你这样就很好"。然后她说了一句留有余地的话：' },
+      { type: 'quote', text: '"万一哪天我又喜欢上了，再和你说吧。"', from: '梓樱' },
+      {
+        type: 'photo-grid', cols: 2,
+        images: [`${IMG}/2026-03/01.jpg`, `${IMG}/2026-03/02.jpg`],
+        caption: '三月，新的开始'
+      },
+      {
+        type: 'photo-wall',
+        images: [
+          `${CHAT_IMG}/2026-03/20260301-114212-201851.jpg`, `${CHAT_IMG}/2026-03/20260301-215647-685434.jpg`,
+          `${CHAT_IMG}/2026-03/20260302-140329-699313.jpg`, `${CHAT_IMG}/2026-03/20260304-140041-260252.jpg`,
+          `${CHAT_IMG}/2026-03/20260304-191753-644120.jpg`, `${CHAT_IMG}/2026-03/20260305-140129-641312.jpg`,
+          `${CHAT_IMG}/2026-03/20260301-125106-864465.jpg`, `${CHAT_IMG}/2026-03/20260303-105039-499834.jpg`,
+          `${CHAT_IMG}/2026-03/20260305-125241-857174.jpg`
+        ],
+        caption: '三月的日常分享'
+      },
+      { type: 'narrative', text: '小鱼说"感觉最近有种再一次和你遇见的感觉"。梓樱说"嘻嘻，下次见面吃吧"。作为朋友，反而更自在了。', emoji: `${CHAT_EMOJI}/5fe3946a572763d1e1e63979cf0d3a62.gif` },
+      { type: 'photo-single', src: `${EXTRA}/5.jpg`, caption: '新的篇章' },
+      { type: 'photo-together', src: `${IMG}/together/5.jpg`, caption: '你这样就很好' }
+    ]
+  }
+]
+
+// 结尾
+export const ending = {
+  quote: '从五月相遇，到二月底换一种方式，\n我们在一起大约七个月。\n\n线下真正在一起的时间，一共不超过两周。\n但这两周里，装满了花束、拥抱、唱歌、\n自习、王者荣耀、深夜长谈、\n和凌晨两点的晚安。\n\n谢谢你出现在我的生命里。\n不管以后的路怎么走，\n这段日子，是我们共同的礼物。',
+  note: '小鱼与梓樱 · 纪念册'
+}

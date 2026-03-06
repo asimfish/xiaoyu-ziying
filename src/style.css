@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm: #f5e6d3;
+  --color-cream: #faf6f0;
+  --color-rose: #d4a0a0;
+  --color-deep-rose: #b07070;
+  --color-ink: #3a3a3a;
+  --color-light-ink: #6a6a6a;
+  --color-gold: #c9a96e;
+  --color-friend-blue: #6a8caf;
+  --color-friend-border: #a0b8d4;
+  --font-serif: 'Noto Serif SC', serif;
+  --font-sans: 'Noto Sans SC', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* fade-in animation */
+.fade-enter-active {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* keyframes */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(30px, -30px) rotate(5deg); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* quote block decorative quote mark */
+.quote-block::before {
+  content: '\201C';
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  color: var(--color-rose);
+  opacity: 0.3;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.8rem;
+  line-height: 1;
+}
+
+/* photo wall masonry */
+.photo-wall {
+  column-count: 3;
+  column-gap: 0.8rem;
+}
+.photo-wall img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .photo-wall { column-count: 2; }
+}
+
+/* lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
