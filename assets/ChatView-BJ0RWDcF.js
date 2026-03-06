@@ -1,4 +1,4 @@
-import{o,c as n,F as $,m as I,n as C,a as t,t as p,e as z,w as U,v as P,b as R,A as E,r as h,B as M,f as k,i as w,g as D,d as A,h as F,p as B,y as H}from"./index-CxJPY1hf.js";import{u as O}from"./use_settings-Cx49WnxW.js";const b=`【两人基本信息】
+import{o,c as n,F as $,m as I,n as C,a as t,t as p,e as z,w as U,v as P,b as R,A as E,r as h,B as M,f as k,i as w,g as D,d as A,h as F,p as B,y as H}from"./index-D0e6mogI.js";import{u as O}from"./use_settings-C2-nDg3K.js";const b=`【两人基本信息】
 小鱼（男）：在北京工作，之前浙大，目标是当大学老师，热情主动，情绪稳定有仪式感。微信名"兄弟"。
 梓樱（女，陈梓樱）：上海交通大学研究生，化学/生物方向，日常是采样、跑数据、写论文、开组会。i人，享受独处，理性善良果断。
 
