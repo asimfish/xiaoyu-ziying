@@ -1397,5 +1397,35 @@
         "time": "2026-03-07 23:29:41"
       }
     ]
+  },
+  {
+    "id": "session_1772897436171",
+    "user": "小鱼",
+    "loginTime": "2026-03-07 23:30:36",
+    "device": {
+      "browser": "微信",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) MacWechat/3.8.7(0x13080712) Un",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 23:30:36",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 23:30:36"
+      }
+    ]
   }
 ]
