@@ -1,8 +1,8 @@
 {
   "小鱼": {
-    "lastSeen": "2026-03-07 23:24:45",
-    "page": "/",
-    "pageName": "首页"
+    "lastSeen": "2026-03-07 23:29:21",
+    "page": "/login",
+    "pageName": "/login"
   },
   "梓樱": {
     "lastSeen": "2026-03-07 23:25:04",
@@ -11,7 +11,7 @@
   },
   "root": {
     "lastSeen": "2026-03-07 23:29:17",
-    "page": "/login",
-    "pageName": "/login"
+    "page": "/admin",
+    "pageName": "管理"
   }
 }
