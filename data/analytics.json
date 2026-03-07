@@ -1342,8 +1342,8 @@
         "path": "/admin",
         "name": "管理",
         "enter": "2026-03-07 23:28:51",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-07 23:29:06",
+        "duration": 15
       }
     ],
     "actions": [
