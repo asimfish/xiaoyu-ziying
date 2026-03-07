@@ -39,11 +39,12 @@ export const useGithubSync = () => {
       lastError.value = error
       return null
     }
-    if (!content) return { data: [], sha: null }
+    // 文件不存在或内容为空，返回 null（不要返回空数组，防止覆盖本地数据）
+    if (!content) return null
     try {
       return { data: JSON.parse(content), sha }
     } catch {
-      return { data: [], sha }
+      return null
     }
   }
 

@@ -33,7 +33,8 @@ const sendHeartbeat = async () => {
   const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
   if (!hasGithubConfig()) return
   const remote = await loadRemote('online')
-  const data = (remote && remote.data) ? remote.data : {}
+  // 确保 data 是对象（不是数组），旧数据可能是 []
+  const data = (remote && remote.data && !Array.isArray(remote.data)) ? remote.data : {}
   data[currentUser] = {
     lastSeen: now(),
     page: currentPath,
@@ -47,7 +48,7 @@ const fetchOnlineStatus = async () => {
   const { loadRemote, hasGithubConfig } = useGithubSync()
   if (!hasGithubConfig()) return
   const remote = await loadRemote('online')
-  if (remote && remote.data) onlineStatus.value = remote.data
+  if (remote && remote.data && !Array.isArray(remote.data)) onlineStatus.value = remote.data
 }
 
 // 判断用户是否在线
@@ -80,8 +81,7 @@ const stopHeartbeat = async () => {
   const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
   if (!hasGithubConfig()) return
   const remote = await loadRemote('online')
-  const data = (remote && remote.data) ? remote.data : {}
-  // 设置一个过去的时间，让其判定为离线
+  const data = (remote && remote.data && !Array.isArray(remote.data)) ? remote.data : {}
   data[currentUser] = { lastSeen: '2000-01-01 00:00:00', page: '', pageName: '' }
   await saveRemote('online', data)
 }

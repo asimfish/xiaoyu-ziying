@@ -9,7 +9,6 @@ let session = null
 let currentPage = null
 let flushTimer = null
 let flushing = false
-let dataRebuilt = false
 
 // 页面路径到中文名映射
 const PAGE_NAMES = {
@@ -46,14 +45,9 @@ const flush = async () => {
   }
   const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
   if (!hasGithubConfig()) { flushing = false; return }
-  // 首次 flush 清空旧乱码数据，重建干净数组
-  let list = []
-  if (dataRebuilt) {
-    const remote = await loadRemote('analytics')
-    list = (remote && Array.isArray(remote.data)) ? remote.data : []
-  } else {
-    dataRebuilt = true
-  }
+  // 始终从远程读取最新数据再合并
+  const remote = await loadRemote('analytics')
+  const list = (remote && Array.isArray(remote.data)) ? remote.data : []
   const idx = list.findIndex((s) => s.id === session.id)
   if (idx >= 0) {
     list[idx] = { ...session }

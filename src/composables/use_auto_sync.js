@@ -36,6 +36,16 @@ export const useAutoSync = (type, options = {}) => {
         loaded.value = true
         return
       }
+      // 远程是空数据且本地有数据时，不覆盖（防止远程空文件清掉本地记录）
+      const remoteEmpty = Array.isArray(remote.data) ? remote.data.length === 0 : !remote.data
+      const localHasData = Array.isArray(data.value) ? data.value.length > 0 : !!data.value
+      if (remoteEmpty && localHasData) {
+        // 本地有数据但远程是空的，把本地数据推上去
+        pulling = false
+        loaded.value = true
+        await save(data.value)
+        return
+      }
       const json = JSON.stringify(remote.data)
       if (json !== lastJson) {
         lastJson = json
