@@ -1375,5 +1375,27 @@
         "time": "2026-03-07 23:29:20"
       }
     ]
+  },
+  {
+    "id": "session_1772897381480",
+    "user": "小鱼",
+    "loginTime": "2026-03-07 23:29:41",
+    "device": {
+      "browser": "Chrome 145",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 23:29:41"
+      }
+    ]
   }
 ]
