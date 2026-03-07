@@ -1576,8 +1576,8 @@
         "path": "/gallery",
         "name": "相册",
         "enter": "2026-03-07 23:41:32",
-        "leave": "2026-03-07 23:55:16",
-        "duration": 824
+        "leave": "2026-03-08 00:02:16",
+        "duration": 1244
       }
     ],
     "actions": [
@@ -1785,29 +1785,8 @@
         "path": "/gallery",
         "name": "相册",
         "enter": "2026-03-08 00:01:57",
-        "leave": "2026-03-08 00:02:04",
-        "duration": 7
-      },
-      {
-        "path": "/memorial/love",
-        "name": "上篇",
-        "enter": "2026-03-08 00:02:04",
-        "leave": "2026-03-08 00:02:08",
-        "duration": 4
-      },
-      {
-        "path": "/memorial/friend",
-        "name": "下篇",
-        "enter": "2026-03-08 00:02:08",
-        "leave": "2026-03-08 00:02:09",
-        "duration": 1
-      },
-      {
-        "path": "/gallery",
-        "name": "相册",
-        "enter": "2026-03-08 00:02:09",
-        "leave": "2026-03-08 00:02:14",
-        "duration": 5
+        "leave": "",
+        "duration": 0
       }
     ],
     "actions": [
