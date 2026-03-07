@@ -26,6 +26,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_MINIMAX_API_KEY: ${{ secrets.VITE_MINIMAX_API_KEY }}
+          VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
+          VITE_GITHUB_OWNER: asimfish
+          VITE_GITHUB_REPO: xiaoyu-ziying
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

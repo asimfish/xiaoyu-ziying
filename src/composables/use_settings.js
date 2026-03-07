@@ -10,14 +10,17 @@ const KEYS = {
 }
 
 const envMinimaxKey = import.meta.env.VITE_MINIMAX_API_KEY
+const envGithubToken = import.meta.env.VITE_GITHUB_TOKEN
+const envGithubOwner = import.meta.env.VITE_GITHUB_OWNER
+const envGithubRepo = import.meta.env.VITE_GITHUB_REPO
 
 const load = (key) => localStorage.getItem(key) || ''
 
 export const useSettings = () => {
   const minimaxKey = ref(envMinimaxKey || load(KEYS.minimax))
-  const githubToken = ref(load(KEYS.github_token))
-  const githubOwner = ref(load(KEYS.github_owner))
-  const githubRepo = ref(load(KEYS.github_repo))
+  const githubToken = ref(envGithubToken || load(KEYS.github_token))
+  const githubOwner = ref(envGithubOwner || load(KEYS.github_owner))
+  const githubRepo = ref(envGithubRepo || load(KEYS.github_repo))
 
   watchEffect(() => localStorage.setItem(KEYS.minimax, minimaxKey.value))
   watchEffect(() => localStorage.setItem(KEYS.github_token, githubToken.value))
