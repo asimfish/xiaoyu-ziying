@@ -1092,8 +1092,15 @@
         "path": "/announcements",
         "name": "公告",
         "enter": "2026-03-07 23:17:43",
-        "leave": "2026-03-07 23:17:43",
-        "duration": 0
+        "leave": "2026-03-07 23:17:49",
+        "duration": 6
+      },
+      {
+        "path": "/gallery",
+        "name": "相册",
+        "enter": "2026-03-07 23:17:49",
+        "leave": "2026-03-07 23:18:57",
+        "duration": 68
       }
     ],
     "actions": [
