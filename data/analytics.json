@@ -1771,8 +1771,15 @@
         "path": "/announcements",
         "name": "公告",
         "enter": "2026-03-08 00:01:40",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-08 00:01:42",
+        "duration": 2
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-08 00:01:42",
+        "leave": "2026-03-08 00:01:47",
+        "duration": 5
       }
     ],
     "actions": [
