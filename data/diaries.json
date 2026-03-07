@@ -89,5 +89,21 @@
     "content": "测试2317",
     "date": "2026-03-07 23:17:41",
     "author": "xiaoyu"
+  },
+  {
+    "id": 1772900988440,
+    "title": "微博功能发布",
+    "content": "微博功能发布了",
+    "images": [
+      "https://raw.githubusercontent.com/asimfish/xiaoyu-ziying/main/data/images/2026-03/IMG_1997.jpg"
+    ],
+    "mood": "happy",
+    "weather": "cloudy",
+    "date": "2026-03-08 00:29:48",
+    "author": "xiaoyu",
+    "likes": [],
+    "reactions": {},
+    "comments": [],
+    "edited": false
   }
 ]
