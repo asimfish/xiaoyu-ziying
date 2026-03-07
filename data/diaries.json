@@ -88,7 +88,22 @@
     "title": "测试2317",
     "content": "测试2317",
     "date": "2026-03-07 23:17:41",
-    "author": "xiaoyu"
+    "author": "xiaoyu",
+    "images": [],
+    "mood": "",
+    "weather": "",
+    "likes": [],
+    "reactions": {},
+    "comments": [
+      {
+        "id": 1772901310286,
+        "author": "小鱼",
+        "content": "hh",
+        "date": "2026-03-08 00:35:10",
+        "replyTo": null
+      }
+    ],
+    "edited": false
   },
   {
     "id": 1772900988440,
