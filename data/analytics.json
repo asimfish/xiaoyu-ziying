@@ -557,7 +557,7 @@
     "device": {
       "browser": "微信",
       "os": "iOS",
-      "model": "iPhone (956_440_3)",
+      "model": "iPhone 17 Pro Max",
       "mobile": true,
       "screen": "440x956",
       "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.69(0x1800452e) NetType/4G Language/zh_CN",
@@ -682,7 +682,7 @@
     "device": {
       "browser": "微信",
       "os": "iOS",
-      "model": "iPhone (956_440_3)",
+      "model": "iPhone 17 Pro Max",
       "mobile": true,
       "screen": "440x956",
       "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.69(0x1800452e) NetType/4G Language/zh_CN",
