@@ -1,4 +1,5 @@
-// GitHub 数据同步 - 读写 diaries.json, calendar.json, announcements.json, foods.json, places.json, academic.json
+// GitHub 数据同步 - 读写 JSON 数据文件
+// 缓存策略：loadRemote 先返回 localStorage 缓存，后台刷新
 
 import { ref } from 'vue'
 
@@ -19,6 +20,23 @@ const PATHS = {
   gallery: 'data/gallery.json'
 }
 
+// 不走缓存的类型（实时性要求高）
+const NO_CACHE_TYPES = new Set(['analytics', 'online'])
+
+const cacheKey = (type) => `gh-cache-${type}`
+
+const getCache = (type) => {
+  try {
+    const raw = localStorage.getItem(cacheKey(type))
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch { return null }
+}
+
+const setCache = (type, data) => {
+  try { localStorage.setItem(cacheKey(type), JSON.stringify(data)) } catch {}
+}
+
 export const useGithubSync = () => {
   const { githubToken, githubOwner, githubRepo, hasGithubConfig } = useSettings()
   const syncing = ref(false)
@@ -30,7 +48,7 @@ export const useGithubSync = () => {
     repo: githubRepo.value
   })
 
-  // 读取远程数据
+  // 读取远程数据（带缓存）
   const loadRemote = async (type) => {
     if (!hasGithubConfig()) return null
     const { token, owner, repo } = getConfig()
@@ -38,15 +56,26 @@ export const useGithubSync = () => {
     const { content, sha, error } = await readFile(token, owner, repo, path)
     if (error) {
       lastError.value = error
-      return null
+      // 请求失败时返回缓存
+      const cached = getCache(type)
+      return cached ? { data: cached, sha: null } : null
     }
-    // 文件不存在或内容为空，返回 null（不要返回空数组，防止覆盖本地数据）
     if (!content) return null
     try {
-      return { data: JSON.parse(content), sha }
+      const data = JSON.parse(content)
+      // 更新缓存（实时类型不缓存）
+      if (!NO_CACHE_TYPES.has(type)) setCache(type, data)
+      return { data, sha }
     } catch {
       return null
     }
+  }
+
+  // 快速加载：先返回缓存，后台刷新（用于页面初始化）
+  const loadCached = (type) => {
+    if (NO_CACHE_TYPES.has(type)) return null
+    const cached = getCache(type)
+    return cached ? { data: cached, sha: null } : null
   }
 
   // 保存到远程
@@ -67,6 +96,8 @@ export const useGithubSync = () => {
       lastError.value = result.error
       return false
     }
+    // 写入成功后更新缓存
+    if (!NO_CACHE_TYPES.has(type)) setCache(type, data)
     return true
   }
 
@@ -114,5 +145,5 @@ export const useGithubSync = () => {
     return merged
   }
 
-  return { syncing, lastError, loadRemote, saveRemote, syncDiaries, syncCalendar, syncData, hasGithubConfig }
+  return { syncing, lastError, loadRemote, loadCached, saveRemote, syncDiaries, syncCalendar, syncData, hasGithubConfig }
 }

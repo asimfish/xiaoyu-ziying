@@ -8,3 +8,5 @@ dist
 public/assets/chat-emoji
 public/assets/chat-images
 public/assets/chat-videos
+AdminView 2.vue
+LoginView 2.vue

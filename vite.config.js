@@ -11,6 +11,16 @@ export default defineConfig({
     }
   },
   base: '/xiaoyu-ziying/',
+  build: {
+    // 手动分包：vue 框架单独打包，长期缓存
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router']
+        }
+      }
+    }
+  },
   server: {
     proxy: {
       '/api/minimax': {
