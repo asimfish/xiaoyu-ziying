@@ -2152,8 +2152,15 @@
         "path": "/",
         "name": "首页",
         "enter": "2026-03-08 02:39:39",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-08 02:39:43",
+        "duration": 4
+      },
+      {
+        "path": "/academic",
+        "name": "学术",
+        "enter": "2026-03-08 02:39:43",
+        "leave": "2026-03-08 02:39:48",
+        "duration": 5
       }
     ],
     "actions": [
