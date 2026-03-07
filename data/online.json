@@ -11,7 +11,7 @@
   },
   "root": {
     "lastSeen": "2026-03-07 23:29:17",
-    "page": "/admin",
-    "pageName": "管理"
+    "page": "/login",
+    "pageName": "/login"
   }
 }
