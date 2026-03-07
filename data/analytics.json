@@ -1576,8 +1576,8 @@
         "path": "/gallery",
         "name": "相册",
         "enter": "2026-03-07 23:41:32",
-        "leave": "2026-03-08 00:31:16",
-        "duration": 2984
+        "leave": "2026-03-08 00:22:16",
+        "duration": 2444
       }
     ],
     "actions": [
@@ -2013,6 +2013,50 @@
         "type": "login",
         "detail": "登录成功",
         "time": "2026-03-08 00:28:49"
+      }
+    ]
+  },
+  {
+    "id": "session_1772901075997",
+    "user": "小鱼",
+    "loginTime": "2026-03-08 00:31:15",
+    "device": {
+      "browser": "微信",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) MacWechat/3.8.7(0x13080712) Un",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-08 00:31:16",
+        "leave": "2026-03-08 00:31:18",
+        "duration": 2
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-08 00:31:18",
+        "leave": "2026-03-08 00:31:20",
+        "duration": 2
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-08 00:31:20",
+        "leave": "2026-03-08 00:31:25",
+        "duration": 5
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-08 00:31:15"
       }
     ]
   }
