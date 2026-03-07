@@ -104,7 +104,11 @@
     "likes": [
       "root"
     ],
-    "reactions": {},
+    "reactions": {
+      "👍": [
+        "root"
+      ]
+    },
     "comments": [],
     "edited": false
   }
