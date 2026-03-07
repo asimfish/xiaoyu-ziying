@@ -13,15 +13,18 @@
     </div>
 
     <!-- list -->
-    <div v-for="a in announcements" :key="a.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="font-serif text-lg text-ink">{{ a.title }}</h2>
-        <span class="text-xs text-light-ink">{{ a.date }}</span>
+    <template v-if="loaded">
+      <div v-for="a in announcements" :key="a.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-serif text-lg text-ink">{{ a.title }}</h2>
+          <span class="text-xs text-light-ink">{{ a.date }}</span>
+        </div>
+        <p class="text-ink leading-[1.8] whitespace-pre-wrap">{{ a.content }}</p>
+        <p class="text-sm text-light-ink mt-3">-- {{ a.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
       </div>
-      <p class="text-ink leading-[1.8] whitespace-pre-wrap">{{ a.content }}</p>
-      <p class="text-sm text-light-ink mt-3">-- {{ a.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
-    </div>
-    <p v-if="!announcements.length" class="text-center text-light-ink py-16">还没有公告</p>
+      <p v-if="!announcements.length" class="text-center text-light-ink py-16">还没有公告</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -32,7 +35,7 @@ import IdentityPicker from '@/components/IdentityPicker.vue'
 import { useAutoSync } from '@/composables/use_auto_sync'
 import dayjs from 'dayjs'
 
-const { data: raw, save, init } = useAutoSync('announcements')
+const { data: raw, save, init, loaded } = useAutoSync('announcements')
 const announcements = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
 
 const newTitle = ref('')

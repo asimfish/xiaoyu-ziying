@@ -1,7 +1,7 @@
 // 图片压缩工具 - canvas resize + quality 递减直到 < 1MB
 
-const MAX_SIZE = 1024 * 1024 // 1MB
-const MAX_WIDTH = 1920
+const MAX_SIZE = 300 * 1024 // 300KB
+const MAX_WIDTH = 1280
 
 const loadImage = (file) => new Promise((resolve, reject) => {
   const img = new Image()

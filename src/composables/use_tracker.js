@@ -9,6 +9,7 @@ let session = null
 let currentPage = null
 let flushTimer = null
 let flushing = false
+let debounceTimer = null
 
 // 页面路径到中文名映射
 const PAGE_NAMES = {
@@ -211,6 +212,12 @@ const startSession = (user) => {
   window.addEventListener('beforeunload', onBeforeUnload)
 }
 
+// 防抖 flush（页面切换时延迟 5 秒，避免频繁 API 调用拖慢导航）
+const debouncedFlush = () => {
+  if (debounceTimer) clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(flush, 5000)
+}
+
 // 记录页面浏览
 const trackPage = (path) => {
   if (!session) return
@@ -223,8 +230,8 @@ const trackPage = (path) => {
   if (!name) return
   currentPage = { path, name, enter: time, leave: '', duration: 0 }
   session.pages.push(currentPage)
-  // 页面切换时立即同步
-  flush()
+  // 页面切换时延迟同步，不阻塞导航
+  debouncedFlush()
 }
 
 // 记录操作

@@ -20,18 +20,21 @@
     </div>
 
     <!-- list -->
-    <div v-for="p in places" :key="p.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="font-serif text-lg text-ink">{{ p.place }}</h2>
-        <span class="text-xs text-light-ink">{{ p.date }}</span>
+    <template v-if="loaded">
+      <div v-for="p in places" :key="p.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-serif text-lg text-ink">{{ p.place }}</h2>
+          <span class="text-xs text-light-ink">{{ p.date }}</span>
+        </div>
+        <p v-if="p.description" class="text-ink leading-[1.8] whitespace-pre-wrap mb-3">{{ p.description }}</p>
+        <div v-if="p.images && p.images.length" class="flex flex-wrap gap-2 mb-3">
+          <img v-for="(img, i) in p.images" :key="i" :src="img.url" alt="" class="w-24 h-24 rounded-lg object-cover">
+        </div>
+        <p class="text-xs text-deep-rose">-- {{ p.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
       </div>
-      <p v-if="p.description" class="text-ink leading-[1.8] whitespace-pre-wrap mb-3">{{ p.description }}</p>
-      <div v-if="p.images && p.images.length" class="flex flex-wrap gap-2 mb-3">
-        <img v-for="(img, i) in p.images" :key="i" :src="img.url" alt="" class="w-24 h-24 rounded-lg object-cover">
-      </div>
-      <p class="text-xs text-deep-rose">-- {{ p.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
-    </div>
-    <p v-if="!places.length" class="text-center text-light-ink py-16">还没有足迹记录</p>
+      <p v-if="!places.length" class="text-center text-light-ink py-16">还没有足迹记录</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -45,7 +48,7 @@ import { useGithubSync } from '@/composables/use_github_sync'
 import dayjs from 'dayjs'
 
 const { hasGithubConfig } = useGithubSync()
-const { data: raw, save, init } = useAutoSync('places')
+const { data: raw, save, init, loaded } = useAutoSync('places')
 const places = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
 
 const newDate = ref(dayjs().format('YYYY-MM-DD'))

@@ -39,7 +39,8 @@
     </div>
 
     <!-- papers list -->
-    <div v-for="p in filteredPapers" :key="p.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
+    <template v-if="loaded">
+      <div v-for="p in filteredPapers" :key="p.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
       <div class="flex items-center justify-between mb-2">
         <h3 class="font-serif text-lg text-ink">{{ p.title }}</h3>
         <span class="text-xs px-2 py-0.5 rounded-full bg-cream text-light-ink">{{ getFolderName(p.folderId) }}</span>
@@ -65,6 +66,8 @@
       </div>
     </div>
     <p v-if="!filteredPapers.length" class="text-center text-light-ink py-16">还没有论文</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -104,7 +107,7 @@ const mergeAcademic = (remote, local) => {
   return { folders: [...fMap.values()], papers: [...pMap.values()] }
 }
 
-const { data, save, init } = useAutoSync('academic', {
+const { data, save, init, loaded } = useAutoSync('academic', {
   default: { folders: [], papers: [] },
   merge: mergeAcademic
 })

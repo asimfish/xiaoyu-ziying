@@ -1,6 +1,10 @@
 <template>
   <NavBar v-if="showNav" />
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
   <Teleport to="body">
     <div v-if="lightboxSrc" class="lightbox-overlay" @click="lightboxSrc = ''">
       <img :src="lightboxSrc" alt="">

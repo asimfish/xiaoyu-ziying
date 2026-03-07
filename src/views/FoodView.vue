@@ -17,16 +17,19 @@
     </div>
 
     <!-- list -->
-    <div v-for="f in foods" :key="f.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5 mb-4">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="font-serif text-lg text-ink">{{ f.dish }}</h2>
-        <span class="text-xs text-light-ink">{{ f.date }}</span>
+    <template v-if="loaded">
+      <div v-for="f in foods" :key="f.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-serif text-lg text-ink">{{ f.dish }}</h2>
+          <span class="text-xs text-light-ink">{{ f.date }}</span>
+        </div>
+        <p v-if="f.location" class="text-sm text-light-ink mb-1">{{ f.location }}</p>
+        <p v-if="f.note" class="text-sm text-ink">{{ f.note }}</p>
+        <p class="text-xs text-deep-rose mt-2">-- {{ f.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
       </div>
-      <p v-if="f.location" class="text-sm text-light-ink mb-1">{{ f.location }}</p>
-      <p v-if="f.note" class="text-sm text-ink">{{ f.note }}</p>
-      <p class="text-xs text-deep-rose mt-2">-- {{ f.author === 'xiaoyu' ? '小鱼' : '梓樱' }}</p>
-    </div>
-    <p v-if="!foods.length" class="text-center text-light-ink py-16">还没有美食记录</p>
+      <p v-if="!foods.length" class="text-center text-light-ink py-16">还没有美食记录</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -46,7 +49,7 @@ const PRESET = [{
   author: 'xiaoyu'
 }]
 
-const { data: raw, save, init } = useAutoSync('foods', { default: PRESET })
+const { data: raw, save, init, loaded } = useAutoSync('foods', { default: PRESET })
 const foods = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
 
 const newDate = ref(dayjs().format('YYYY-MM-DD'))

@@ -22,8 +22,11 @@
     </div>
 
     <!-- diary list -->
-    <DiaryEntry v-for="d in diaries" :key="d.id" :title="d.title" :content="d.content" :date="d.date" :author="d.author" />
-    <p v-if="!diaries.length" class="text-center text-light-ink py-16">还没有日记，写下第一篇吧</p>
+    <template v-if="loaded">
+      <DiaryEntry v-for="d in diaries" :key="d.id" :title="d.title" :content="d.content" :date="d.date" :author="d.author" />
+      <p v-if="!diaries.length" class="text-center text-light-ink py-16">还没有日记，写下第一篇吧</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -35,7 +38,7 @@ import IdentityPicker from '@/components/IdentityPicker.vue'
 import { useAutoSync } from '@/composables/use_auto_sync'
 import dayjs from 'dayjs'
 
-const { data: diariesRaw, save, init } = useAutoSync('diaries')
+const { data: diariesRaw, save, init, loaded } = useAutoSync('diaries')
 const diaries = computed(() => [...diariesRaw.value].sort((a, b) => b.id - a.id))
 
 const newTitle = ref('')

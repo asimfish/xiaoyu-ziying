@@ -31,10 +31,13 @@
     </div>
 
     <!-- events list for selected month -->
-    <div class="space-y-0">
-      <CalendarEvent v-for="e in monthEvents" :key="e.id" :event="e" />
-    </div>
-    <p v-if="!monthEvents.length" class="text-center text-light-ink py-8">本月暂无事件</p>
+    <template v-if="loaded">
+      <div class="space-y-0">
+        <CalendarEvent v-for="e in monthEvents" :key="e.id" :event="e" />
+      </div>
+      <p v-if="!monthEvents.length" class="text-center text-light-ink py-8">本月暂无事件</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-8 animate-pulse">加载中...</p>
   </div>
 </template>
 
@@ -46,7 +49,7 @@ import CalendarEvent from '@/components/CalendarEvent.vue'
 import { calendarPresets } from '@/data/calendar_presets'
 import { useAutoSync } from '@/composables/use_auto_sync'
 
-const { data: customEvents, save, init } = useAutoSync('calendar')
+const { data: customEvents, save, init, loaded } = useAutoSync('calendar')
 
 const allEvents = computed(() => [...calendarPresets, ...customEvents.value])
 
