@@ -15,7 +15,8 @@ const PATHS = {
   analytics: 'data/analytics.json',
   online: 'data/online.json',
   chats: 'data/chats.json',
-  chat_memory_extra: 'data/chat_memory_extra.json'
+  chat_memory_extra: 'data/chat_memory_extra.json',
+  gallery: 'data/gallery.json'
 }
 
 export const useGithubSync = () => {

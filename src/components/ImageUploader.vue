@@ -27,6 +27,9 @@ import { uploadImage } from '@/libs/github'
 import { useSettings } from '@/composables/use_settings'
 
 const emit = defineEmits(['uploaded'])
+const props = defineProps({
+  folder: { type: String, default: '' }
+})
 const { githubToken, githubOwner, githubRepo, hasGithubConfig } = useSettings()
 
 const uploading = ref(false)
@@ -60,10 +63,10 @@ const onSelect = async (e) => {
         sizeLabel: formatSize(compressed.blob.size)
       })
 
-      // 上传到 GitHub
-      const now = new Date()
-      const pad = (n) => String(n).padStart(2, '0')
-      const folder = `${now.getFullYear()}-${pad(now.getMonth() + 1)}`
+      // 上传到 GitHub（优先用 prop 指定的文件夹）
+      const d = new Date()
+      const fallback = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      const folder = props.folder || fallback
       const path = `data/images/${folder}/${compressed.name}`
 
       const result = await uploadImage(

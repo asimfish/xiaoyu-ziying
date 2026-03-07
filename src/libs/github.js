@@ -40,15 +40,26 @@ export const writeFile = async (token, owner, repo, path, content, sha) => {
   return { ok: true, sha: data.content.sha }
 }
 
+// 只获取文件 sha（不解码内容，适用于图片等二进制文件）
+const getFileSha = async (token, owner, repo, path) => {
+  const res = await fetch(`${API_BASE}/repos/${owner}/${repo}/contents/${path}`, {
+    headers: headers(token),
+    cache: 'no-store'
+  })
+  if (!res.ok) return null
+  const data = await res.json()
+  return data.sha
+}
+
 // 上传图片（base64）
 export const uploadImage = async (token, owner, repo, path, base64Content) => {
-  // 先检查文件是否存在获取 sha
-  const existing = await readFile(token, owner, repo, path)
   const body = {
     message: `upload ${path}`,
     content: base64Content
   }
-  if (existing.sha) body.sha = existing.sha
+  // 检查文件是否已存在，获取 sha 用于覆盖
+  const sha = await getFileSha(token, owner, repo, path)
+  if (sha) body.sha = sha
   const res = await fetch(`${API_BASE}/repos/${owner}/${repo}/contents/${path}`, {
     method: 'PUT',
     headers: headers(token),
