@@ -1328,6 +1328,20 @@
         "path": "/",
         "name": "首页",
         "enter": "2026-03-07 23:28:36",
+        "leave": "2026-03-07 23:28:49",
+        "duration": 13
+      },
+      {
+        "path": "/announcements",
+        "name": "公告",
+        "enter": "2026-03-07 23:28:49",
+        "leave": "2026-03-07 23:28:51",
+        "duration": 2
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:28:51",
         "leave": "",
         "duration": 0
       }
@@ -1337,28 +1351,6 @@
         "type": "login",
         "detail": "登录成功",
         "time": "2026-03-07 23:28:36"
-      }
-    ]
-  },
-  {
-    "id": "session_1772897326734",
-    "user": "root",
-    "loginTime": "2026-03-07 23:28:46",
-    "device": {
-      "browser": "Chrome 145",
-      "os": "macOS 10.15.7",
-      "model": "Apple M2",
-      "mobile": false,
-      "screen": "1728x1117",
-      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
-      "location": "Hong Kong Hong Kong"
-    },
-    "pages": [],
-    "actions": [
-      {
-        "type": "login",
-        "detail": "登录成功",
-        "time": "2026-03-07 23:28:46"
       }
     ]
   }
