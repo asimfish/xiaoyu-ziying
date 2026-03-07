@@ -28,7 +28,7 @@
         <router-link to="/places" class="text-light-ink hover:text-ink transition-colors">足迹</router-link>
         <router-link to="/academic" class="text-light-ink hover:text-ink transition-colors">学术</router-link>
         <router-link to="/settings" class="text-light-ink hover:text-ink transition-colors">设置</router-link>
-        <router-link v-if="user === '小鱼'" to="/admin" class="text-light-ink hover:text-ink transition-colors">管理</router-link>
+        <router-link v-if="user === 'root'" to="/admin" class="text-light-ink hover:text-ink transition-colors">管理</router-link>
       </div>
     </div>
   </nav>

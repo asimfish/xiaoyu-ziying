@@ -51,22 +51,27 @@ const username = ref('')
 const password = ref('')
 const error = ref('')
 
-const VALID_USERS = ['小鱼', '梓樱']
-const VALID_PASSWORD = '05090312160816'
+const VALID_USERS = ['小鱼', '梓樱', 'root']
+const PASSWORDS = {
+  '小鱼': '05090312160816',
+  '梓樱': '05090312160816',
+  'root': '7973816'
+}
 
 const login = () => {
   error.value = ''
-  if (!VALID_USERS.includes(username.value.trim())) {
+  const name = username.value.trim()
+  if (!VALID_USERS.includes(name)) {
     error.value = '用户名不正确'
     return
   }
-  if (password.value !== VALID_PASSWORD) {
+  if (password.value !== PASSWORDS[name]) {
     error.value = '密码不正确'
     return
   }
-  sessionStorage.setItem('memorial-auth', username.value.trim())
-  startSession(username.value.trim())
-  startHeartbeat(username.value.trim())
+  sessionStorage.setItem('memorial-auth', name)
+  startSession(name)
+  startHeartbeat(name)
   router.replace('/')
 }
 </script>

@@ -60,6 +60,28 @@ const flush = async () => {
   flushing = false
 }
 
+// 采集设备信息
+const getDeviceInfo = () => {
+  const ua = navigator.userAgent
+  let browser = '未知浏览器'
+  let os = '未知系统'
+  // 浏览器识别（顺序重要，微信/QQ 内置浏览器优先判断）
+  if (/MicroMessenger/i.test(ua)) browser = '微信'
+  else if (/QQ\//i.test(ua)) browser = 'QQ'
+  else if (/Edg/i.test(ua)) browser = 'Edge'
+  else if (/Chrome/i.test(ua)) browser = 'Chrome'
+  else if (/Safari/i.test(ua)) browser = 'Safari'
+  else if (/Firefox/i.test(ua)) browser = 'Firefox'
+  // 系统识别
+  if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS'
+  else if (/Android/i.test(ua)) os = 'Android'
+  else if (/Mac OS/i.test(ua)) os = 'macOS'
+  else if (/Windows/i.test(ua)) os = 'Windows'
+  else if (/Linux/i.test(ua)) os = 'Linux'
+  const isMobile = /Mobile|Android|iPhone/i.test(ua)
+  return { browser, os, mobile: isMobile, screen: `${screen.width}x${screen.height}` }
+}
+
 // 开始新会话（追踪所有用户）
 const startSession = (user) => {
   flushBuffer()
@@ -68,6 +90,7 @@ const startSession = (user) => {
     id: `session_${Date.now()}`,
     user,
     loginTime: time,
+    device: getDeviceInfo(),
     pages: [],
     actions: [{ type: 'login', detail: '登录成功', time }]
   }

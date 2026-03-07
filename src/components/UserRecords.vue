@@ -23,6 +23,9 @@
       <div v-for="s in sessions" :key="s.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5">
         <div class="flex items-center justify-between mb-3">
           <span class="font-serif text-sm text-ink">{{ s.loginTime }}</span>
+          <span v-if="s.device" class="text-xs text-light-ink bg-cream px-2 py-0.5 rounded-full">
+            {{ s.device.browser }} / {{ s.device.os }}{{ s.device.mobile ? ' / 手机' : '' }} / {{ s.device.screen }}
+          </span>
         </div>
         <!-- 页面浏览 -->
         <div v-if="s.pages && s.pages.length" class="mb-3">

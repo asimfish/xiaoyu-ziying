@@ -91,7 +91,7 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.meta.public) return true
   if (!sessionStorage.getItem('memorial-auth')) return '/login'
-  if (to.meta.admin && getUser() !== '小鱼') return '/'
+  if (to.meta.admin && getUser() !== 'root') return '/'
   return true
 })
 
