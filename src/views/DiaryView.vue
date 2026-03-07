@@ -1,30 +1,32 @@
 <template>
   <div class="max-w-[700px] mx-auto px-4 py-8">
-    <h1 class="font-serif text-3xl text-ink text-center mb-8 tracking-wider">日记</h1>
+    <h1 class="font-serif text-3xl text-ink text-center mb-8 tracking-wider">动态</h1>
 
-    <!-- new diary form -->
-    <div class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-8">
-      <IdentityPicker v-model="newAuthor" />
-      <input v-model="newTitle" placeholder="标题" class="w-full text-lg font-serif text-ink bg-transparent border-b border-warm pb-2 mb-4 outline-none placeholder:text-light-ink/50">
-      <textarea v-model="newContent" placeholder="写点什么..." rows="4" class="w-full text-ink bg-transparent border-none outline-none resize-none leading-[1.8] placeholder:text-light-ink/50"></textarea>
-      <div class="flex justify-end mt-4">
-        <button @click="addDiary" :disabled="!newTitle.trim() || !newContent.trim()" class="px-6 py-2 rounded-full bg-deep-rose text-white text-sm tracking-wider hover:bg-rose transition-colors disabled:opacity-40 disabled:cursor-not-allowed">保存</button>
-      </div>
-    </div>
+    <!-- 发帖/编辑区 -->
+    <DiaryComposer
+      :editing-diary="editingDiary"
+      @submit="onSubmit"
+      @cancel="editingId = null"
+    />
 
-    <!-- actions -->
-    <div class="flex justify-end gap-3 mb-6 text-sm">
-      <button @click="exportData" class="text-light-ink hover:text-ink transition-colors">导出</button>
-      <label class="text-light-ink hover:text-ink transition-colors cursor-pointer">
-        导入
-        <input type="file" accept=".json" class="hidden" @change="importData">
-      </label>
-    </div>
+    <!-- 筛选栏 -->
+    <DiaryFilterBar v-model:author-filter="authorFilter" v-model:keyword="keyword" />
 
-    <!-- diary list -->
+    <!-- 动态列表 -->
     <template v-if="loaded">
-      <DiaryEntry v-for="d in diaries" :key="d.id" :title="d.title" :content="d.content" :date="d.date" :author="d.author" />
-      <p v-if="!diaries.length" class="text-center text-light-ink py-16">还没有日记，写下第一篇吧</p>
+      <DiaryCard
+        v-for="d in filteredDiaries" :key="d.id"
+        :diary="d"
+        :current-user="currentUser"
+        @like="onLike"
+        @react="onReact"
+        @comment="onComment"
+        @edit="onEdit"
+        @delete="onDelete"
+      />
+      <p v-if="!filteredDiaries.length" class="text-center text-light-ink py-16">
+        {{ keyword || authorFilter ? '没有找到相关动态' : '还没有动态，发一条吧' }}
+      </p>
     </template>
     <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
@@ -33,53 +35,118 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-import DiaryEntry from '@/components/DiaryEntry.vue'
-import IdentityPicker from '@/components/IdentityPicker.vue'
+import { getUser } from '@/router'
 import { useAutoSync } from '@/composables/use_auto_sync'
+import { normalizeDiary, mergeDiaries } from '@/libs/diary_helpers'
+import DiaryComposer from '@/components/diary_composer.vue'
+import DiaryCard from '@/components/diary_card.vue'
+import DiaryFilterBar from '@/components/diary_filter_bar.vue'
 import dayjs from 'dayjs'
 
-const { data: diariesRaw, save, init, loaded } = useAutoSync('diaries')
-const diaries = computed(() => [...diariesRaw.value].sort((a, b) => b.id - a.id))
+const currentUser = getUser()
 
-const newTitle = ref('')
-const newContent = ref('')
-const newAuthor = ref('xiaoyu')
+const { data: diariesRaw, save, init, loaded } = useAutoSync('diaries', { merge: mergeDiaries })
 
-const addDiary = async () => {
-  if (!newTitle.value.trim() || !newContent.value.trim()) return
-  const newList = [...diariesRaw.value, {
-    id: Date.now(),
-    title: newTitle.value.trim(),
-    content: newContent.value.trim(),
-    date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    author: newAuthor.value
-  }]
-  newTitle.value = ''
-  newContent.value = ''
-  await save(newList)
-}
+const authorFilter = ref('')
+const keyword = ref('')
+const editingId = ref(null)
 
-const exportData = () => {
-  const blob = new Blob([JSON.stringify(diariesRaw.value, null, 2)], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'memorial-diaries.json'
-  a.click()
-  URL.revokeObjectURL(url)
-}
+// 标准化 + 排序 + 筛选
+const allDiaries = computed(() => diariesRaw.value.map(normalizeDiary).sort((a, b) => b.id - a.id))
 
-const importData = async (e) => {
-  const file = e.target.files[0]
-  if (!file) return
-  const reader = new FileReader()
-  reader.onload = async () => {
-    try {
-      const parsed = JSON.parse(reader.result)
-      if (Array.isArray(parsed)) await save(parsed)
-    } catch { /* ignore */ }
+const filteredDiaries = computed(() => {
+  let list = allDiaries.value
+  if (authorFilter.value) list = list.filter(d => d.author === authorFilter.value)
+  if (keyword.value) {
+    const kw = keyword.value.toLowerCase()
+    list = list.filter(d => (d.title + d.content).toLowerCase().includes(kw))
   }
-  reader.readAsText(file)
+  return list
+})
+
+const editingDiary = computed(() => {
+  if (!editingId.value) return null
+  return allDiaries.value.find(d => d.id === editingId.value)
+})
+
+// 不可变更新单条动态
+const updateDiary = (id, updater) => {
+  const newList = diariesRaw.value.map(d => d.id === id ? updater(normalizeDiary(d)) : d)
+  return save(newList)
+}
+
+// 发布/编辑
+const onSubmit = async (payload) => {
+  if (editingId.value) {
+    await updateDiary(editingId.value, (d) => ({
+      ...d,
+      title: payload.title,
+      content: payload.content,
+      images: payload.images,
+      mood: payload.mood,
+      weather: payload.weather,
+      edited: true
+    }))
+    editingId.value = null
+    return
+  }
+  const newDiary = {
+    id: Date.now(),
+    title: payload.title,
+    content: payload.content,
+    images: payload.images,
+    mood: payload.mood,
+    weather: payload.weather,
+    date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    author: payload.author,
+    likes: [],
+    reactions: {},
+    comments: [],
+    edited: false
+  }
+  await save([...diariesRaw.value, newDiary])
+}
+
+// 点赞
+const onLike = (diaryId) => {
+  updateDiary(diaryId, (d) => {
+    const has = d.likes.includes(currentUser)
+    return { ...d, likes: has ? d.likes.filter(u => u !== currentUser) : [...d.likes, currentUser] }
+  })
+}
+
+// 表情反应
+const onReact = ({ diaryId, emoji }) => {
+  updateDiary(diaryId, (d) => {
+    const users = d.reactions[emoji] ?? []
+    const has = users.includes(currentUser)
+    const newUsers = has ? users.filter(u => u !== currentUser) : [...users, currentUser]
+    const newReactions = { ...d.reactions }
+    if (newUsers.length) { newReactions[emoji] = newUsers } else { delete newReactions[emoji] }
+    return { ...d, reactions: newReactions }
+  })
+}
+
+// 评论
+const onComment = ({ diaryId, content, replyTo }) => {
+  updateDiary(diaryId, (d) => ({
+    ...d,
+    comments: [...d.comments, {
+      id: Date.now(),
+      author: currentUser,
+      content,
+      date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      replyTo
+    }]
+  }))
+}
+
+// 编辑
+const onEdit = (diaryId) => { editingId.value = diaryId; window.scrollTo({ top: 0, behavior: 'smooth' }) }
+
+// 删除
+const onDelete = (diaryId) => {
+  save(diariesRaw.value.filter(d => d.id !== diaryId))
 }
 
 onMounted(() => init())

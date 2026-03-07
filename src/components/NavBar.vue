@@ -19,7 +19,7 @@
         <router-link to="/memorial/love" class="text-deep-rose hover:text-rose transition-colors shrink-0">上篇</router-link>
         <router-link to="/memorial/friend" class="text-friend-blue hover:text-friend-border transition-colors shrink-0">下篇</router-link>
         <router-link to="/gallery" class="text-light-ink hover:text-ink transition-colors shrink-0">相册</router-link>
-        <router-link to="/diary" class="text-light-ink hover:text-ink transition-colors shrink-0">日记</router-link>
+        <router-link to="/diary" class="text-light-ink hover:text-ink transition-colors shrink-0">动态</router-link>
         <router-link to="/chat" class="text-light-ink hover:text-ink transition-colors shrink-0">聊天</router-link>
         <router-link to="/calendar" class="text-light-ink hover:text-ink transition-colors shrink-0">日历</router-link>
         <router-link to="/announcements" class="text-light-ink hover:text-ink transition-colors shrink-0">公告</router-link>
