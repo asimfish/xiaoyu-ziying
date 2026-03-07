@@ -674,5 +674,42 @@
         "time": "2026-03-07 21:58:11"
       }
     ]
+  },
+  {
+    "id": "session_1772891931475",
+    "user": "梓樱",
+    "loginTime": "2026-03-07 21:58:51",
+    "device": {
+      "browser": "微信",
+      "os": "iOS",
+      "model": "iPhone (956_440_3)",
+      "mobile": true,
+      "screen": "440x956",
+      "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.69(0x1800452e) NetType/4G Language/zh_CN",
+      "location": "Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:58:51",
+        "leave": "2026-03-07 21:58:56",
+        "duration": 5
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-07 21:58:56",
+        "leave": "2026-03-07 21:58:56",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:58:51"
+      }
+    ]
   }
 ]
