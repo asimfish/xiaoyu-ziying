@@ -507,8 +507,8 @@
         "path": "/admin",
         "name": "管理",
         "enter": "2026-03-07 21:49:38",
-        "leave": "2026-03-07 21:52:32",
-        "duration": 174
+        "leave": "2026-03-07 21:52:02",
+        "duration": 144
       }
     ],
     "actions": [
@@ -617,6 +617,36 @@
         "type": "login",
         "detail": "登录成功",
         "time": "2026-03-07 21:51:47"
+      }
+    ]
+  },
+  {
+    "id": "session_1772891556255",
+    "user": "梓樱",
+    "loginTime": "2026-03-07 21:52:36",
+    "device": {
+      "browser": "微信",
+      "os": "iOS",
+      "model": "iPhone (956_440_3)",
+      "mobile": true,
+      "screen": "440x956",
+      "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.69(0x1800452e) NetType/4G Language/zh_CN",
+      "location": "Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:52:36",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:52:36"
       }
     ]
   }
