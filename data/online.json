@@ -5,13 +5,13 @@
     "pageName": "公告"
   },
   "梓樱": {
-    "lastSeen": "2026-03-07 23:18:28",
-    "page": "/diary",
-    "pageName": "日记"
+    "lastSeen": "2026-03-07 23:17:44",
+    "page": "/announcements",
+    "pageName": "公告"
   },
   "root": {
-    "lastSeen": "2026-03-07 23:18:17",
-    "page": "/admin",
-    "pageName": "管理"
+    "lastSeen": "2026-03-07 23:18:29",
+    "page": "/gallery",
+    "pageName": "相册"
   }
 }
