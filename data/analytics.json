@@ -1587,5 +1587,49 @@
         "time": "2026-03-07 23:41:28"
       }
     ]
+  },
+  {
+    "id": "session_1772898491225",
+    "user": "root",
+    "loginTime": "2026-03-07 23:48:11",
+    "device": {
+      "browser": "Chrome 145",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 23:48:11",
+        "leave": "2026-03-07 23:48:13",
+        "duration": 2
+      },
+      {
+        "path": "/gallery",
+        "name": "相册",
+        "enter": "2026-03-07 23:48:13",
+        "leave": "2026-03-07 23:48:18",
+        "duration": 5
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:48:18",
+        "leave": "2026-03-07 23:48:41",
+        "duration": 23
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 23:48:11"
+      }
+    ]
   }
 ]
