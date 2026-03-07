@@ -477,5 +477,32 @@
         "time": "2026-03-07 17:31:52"
       }
     ]
+  },
+  {
+    "id": "session_1772891372404",
+    "user": "root",
+    "loginTime": "2026-03-07 21:49:32",
+    "device": {
+      "browser": "Chrome",
+      "os": "macOS",
+      "mobile": false,
+      "screen": "1728x1117"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:49:32",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:49:32"
+      }
+    ]
   }
 ]
