@@ -1717,5 +1717,70 @@
         "time": "2026-03-07 23:54:16"
       }
     ]
+  },
+  {
+    "id": "session_1772899286123",
+    "user": "root",
+    "loginTime": "2026-03-08 00:01:26",
+    "device": {
+      "browser": "Chrome 145",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-08 00:01:26",
+        "leave": "2026-03-08 00:01:28",
+        "duration": 2
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-08 00:01:28",
+        "leave": "2026-03-08 00:01:31",
+        "duration": 3
+      },
+      {
+        "path": "/gallery",
+        "name": "相册",
+        "enter": "2026-03-08 00:01:31",
+        "leave": "2026-03-08 00:01:38",
+        "duration": 7
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-08 00:01:38",
+        "leave": "2026-03-08 00:01:39",
+        "duration": 1
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-08 00:01:39",
+        "leave": "2026-03-08 00:01:40",
+        "duration": 1
+      },
+      {
+        "path": "/announcements",
+        "name": "公告",
+        "enter": "2026-03-08 00:01:40",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-08 00:01:26"
+      }
+    ]
   }
 ]
