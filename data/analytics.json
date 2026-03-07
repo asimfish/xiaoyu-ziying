@@ -1671,8 +1671,43 @@
         "path": "/chat",
         "name": "聊天",
         "enter": "2026-03-07 23:54:23",
-        "leave": "2026-03-07 23:54:28",
-        "duration": 5
+        "leave": "2026-03-07 23:54:37",
+        "duration": 14
+      },
+      {
+        "path": "/gallery",
+        "name": "相册",
+        "enter": "2026-03-07 23:54:37",
+        "leave": "2026-03-07 23:54:40",
+        "duration": 3
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-07 23:54:40",
+        "leave": "2026-03-07 23:54:42",
+        "duration": 2
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-07 23:54:42",
+        "leave": "2026-03-07 23:54:45",
+        "duration": 3
+      },
+      {
+        "path": "/announcements",
+        "name": "公告",
+        "enter": "2026-03-07 23:54:45",
+        "leave": "2026-03-07 23:54:49",
+        "duration": 4
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:54:49",
+        "leave": "",
+        "duration": 0
       }
     ],
     "actions": [
