@@ -1778,8 +1778,15 @@
         "path": "/admin",
         "name": "管理",
         "enter": "2026-03-08 00:01:42",
-        "leave": "2026-03-08 00:01:47",
-        "duration": 5
+        "leave": "2026-03-08 00:01:57",
+        "duration": 15
+      },
+      {
+        "path": "/gallery",
+        "name": "相册",
+        "enter": "2026-03-08 00:01:57",
+        "leave": "",
+        "duration": 0
       }
     ],
     "actions": [
