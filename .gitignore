@@ -5,3 +5,6 @@ dist
 .env.*.local
 *.log
 .DS_Store
+public/assets/chat-emoji
+public/assets/chat-images
+public/assets/chat-videos
