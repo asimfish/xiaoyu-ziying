@@ -2133,5 +2133,35 @@
         "time": "2026-03-08 00:36:08"
       }
     ]
+  },
+  {
+    "id": "session_1772908777968",
+    "user": "root",
+    "loginTime": "2026-03-08 02:39:37",
+    "device": {
+      "browser": "未知浏览器",
+      "os": "iOS",
+      "model": "iPhone 17 Pro Max",
+      "mobile": true,
+      "screen": "440x956",
+      "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 26_1_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/146.0.7680.38 Mobile/15E148 Safari/604.1",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-08 02:39:39",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-08 02:39:37"
+      }
+    ]
   }
 ]
