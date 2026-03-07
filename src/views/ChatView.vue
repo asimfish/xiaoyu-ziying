@@ -22,7 +22,10 @@
           <span class="text-sm text-light-ink">{{ activeScene.label }}</span>
           <span class="text-xs px-2 py-0.5 rounded-full bg-warm text-light-ink">{{ activeScene.bot }} 回复中</span>
         </div>
-        <button @click="resetChat" class="text-sm text-light-ink hover:text-ink transition-colors">换场景</button>
+        <div class="flex items-center gap-3">
+          <button @click="newConversation" class="text-sm text-friend-blue hover:text-friend-border transition-colors">新对话</button>
+          <button @click="resetChat" class="text-sm text-light-ink hover:text-ink transition-colors">换场景</button>
+        </div>
       </div>
 
       <!-- messages -->
@@ -46,22 +49,25 @@
     </template>
   </div>
 </template>
-
 <script setup>
-import { ref, nextTick, computed } from 'vue'
+import { ref, nextTick, computed, onBeforeUnmount } from 'vue'
 
 import ChatScenePicker from '@/components/ChatScenePicker.vue'
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 import { useSettings } from '@/composables/use_settings'
+import { useGithubSync } from '@/composables/use_github_sync'
+import dayjs from 'dayjs'
 
 const base = import.meta.env.BASE_URL
 const { minimaxKey, hasChatKey, hasEnvChatKey } = useSettings()
+const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
 
 const activeScene = ref(null)
 const messages = ref([])
 const loading = ref(false)
 const messagesRef = ref(null)
+const conversationId = ref(null)
 
 const avatars = {
   xiaoyu: `${base}assets/images/avatars/xiaoyu.png`,
@@ -84,14 +90,67 @@ const botAvatar = computed(() => {
   return avatars.ziying
 })
 
-const selectScene = (scene) => {
-  activeScene.value = scene
-  messages.value = []
+// 保存当前对话到 GitHub
+const saveChat = async () => {
+  if (!activeScene.value || !messages.value.length || !hasGithubConfig()) return
+  const sceneId = activeScene.value.id
+  const remote = await loadRemote('chats')
+  const allChats = (remote && remote.data) ? remote.data : {}
+  if (!allChats[sceneId]) allChats[sceneId] = []
+  const idx = allChats[sceneId].findIndex(c => c.id === conversationId.value)
+  const chatRecord = {
+    id: conversationId.value,
+    messages: messages.value.map(m => ({ role: m.role, content: m.content })),
+    date: dayjs().format('YYYY-MM-DD HH:mm:ss')
+  }
+  if (idx >= 0) {
+    allChats[sceneId][idx] = chatRecord
+  } else {
+    allChats[sceneId].push(chatRecord)
+  }
+  await saveRemote('chats', allChats)
 }
 
-const resetChat = () => {
+// 加载场景的历史记录（最近一次对话）
+const loadHistory = async (sceneId) => {
+  if (!hasGithubConfig()) return
+  const remote = await loadRemote('chats')
+  if (!remote || !remote.data || !remote.data[sceneId]) return
+  const chats = remote.data[sceneId]
+  if (!chats.length) return
+  // 加载最近一次对话
+  const latest = chats[chats.length - 1]
+  messages.value = latest.messages.map(m => ({ role: m.role, content: m.content }))
+  conversationId.value = latest.id
+  scrollToBottom()
+}
+
+// 加载额外记忆
+const loadExtraMemory = async () => {
+  if (!hasGithubConfig()) return ''
+  const remote = await loadRemote('chat_memory_extra')
+  if (!remote || !remote.data || !remote.data.length) return ''
+  return '\n\n【用户补充的额外记忆】\n' + remote.data.map(m => m.summary).join('\n')
+}
+
+const selectScene = async (scene) => {
+  activeScene.value = scene
+  messages.value = []
+  conversationId.value = Date.now()
+  await loadHistory(scene.id)
+}
+
+const newConversation = async () => {
+  await saveChat()
+  messages.value = []
+  conversationId.value = Date.now()
+}
+
+const resetChat = async () => {
+  await saveChat()
   activeScene.value = null
   messages.value = []
+  conversationId.value = null
 }
 
 const scrollToBottom = () => {
@@ -110,12 +169,14 @@ const sendMessage = async (text) => {
   loading.value = true
 
   try {
+    const extraMemory = await loadExtraMemory()
+    const systemContent = activeScene.value.system + extraMemory
     const apiMessages = [
-      { role: 'system', content: activeScene.value.system },
+      { role: 'system', content: systemContent },
       ...messages.value.map(m => ({ role: m.role, content: m.content }))
     ]
 
-    const res = await fetch('/api/minimax/v1/text/chatcompletion_v2', {
+    const res = await fetch('https://api.minimax.chat/v1/text/chatcompletion_v2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -142,5 +203,12 @@ const sendMessage = async (text) => {
 
   loading.value = false
   scrollToBottom()
+  // 每次对话后自动保存
+  saveChat()
 }
+
+// 离开页面时保存
+onBeforeUnmount(() => {
+  saveChat()
+})
 </script>

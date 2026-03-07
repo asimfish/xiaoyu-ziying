@@ -17,9 +17,7 @@
 
     <!-- actions -->
     <div class="flex justify-end gap-3 mb-6 text-sm">
-      <button v-if="hasGithubConfig()" @click="doSync" :disabled="syncing" class="text-friend-blue hover:text-friend-border transition-colors">
-        {{ syncing ? '同步中...' : '同步 GitHub' }}
-      </button>
+      <span v-if="syncing" class="text-friend-blue">同步中...</span>
       <button @click="exportData" class="text-light-ink hover:text-ink transition-colors">导出</button>
       <label class="text-light-ink hover:text-ink transition-colors cursor-pointer">
         导入
@@ -42,7 +40,7 @@ import { useGithubSync } from '@/composables/use_github_sync'
 
 const STORAGE_KEY = 'memorial-diaries'
 
-const { syncing, lastError, syncDiaries, hasGithubConfig } = useGithubSync()
+const { syncing, lastError, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
 
 const loadDiaries = () => {
   try {
@@ -79,14 +77,8 @@ const addDiary = async () => {
 
   // 自动同步到 GitHub
   if (hasGithubConfig()) {
-    diariesRaw.value = await syncDiaries(diariesRaw.value)
-    saveDiaries()
+    await saveRemote('diaries', diariesRaw.value)
   }
-}
-
-const doSync = async () => {
-  diariesRaw.value = await syncDiaries(diariesRaw.value)
-  saveDiaries()
 }
 
 const exportData = () => {
@@ -118,9 +110,17 @@ const importData = (e) => {
 }
 
 onMounted(async () => {
+  // GitHub 优先加载
   if (hasGithubConfig()) {
-    diariesRaw.value = await syncDiaries(diariesRaw.value)
-    saveDiaries()
+    const remote = await loadRemote('diaries')
+    if (remote && remote.data && remote.data.length) {
+      // 合并远程和本地
+      const map = new Map()
+      remote.data.forEach(d => map.set(d.id, d))
+      diariesRaw.value.forEach(d => map.set(d.id, d))
+      diariesRaw.value = [...map.values()]
+      saveDiaries()
+    }
   }
 })
 </script>

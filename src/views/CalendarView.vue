@@ -30,11 +30,9 @@
       </div>
     </div>
 
-    <!-- sync -->
-    <div v-if="hasGithubConfig()" class="flex justify-end mb-6">
-      <button @click="doSync" :disabled="syncing" class="text-sm text-friend-blue hover:text-friend-border transition-colors">
-        {{ syncing ? '同步中...' : '同步 GitHub' }}
-      </button>
+    <!-- sync status -->
+    <div v-if="syncing" class="flex justify-end mb-6">
+      <span class="text-sm text-friend-blue">同步中...</span>
     </div>
 
     <!-- events list for selected month -->
@@ -55,7 +53,7 @@ import { useGithubSync } from '@/composables/use_github_sync'
 
 const STORAGE_KEY = 'memorial-calendar'
 
-const { syncing, syncCalendar, hasGithubConfig } = useGithubSync()
+const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
 
 const loadEvents = () => {
   try {
@@ -111,20 +109,20 @@ const addEvent = async () => {
   selectedDate.value = ''
 
   if (hasGithubConfig()) {
-    customEvents.value = await syncCalendar(customEvents.value)
-    saveEvents()
+    await saveRemote('calendar', customEvents.value)
   }
-}
-
-const doSync = async () => {
-  customEvents.value = await syncCalendar(customEvents.value)
-  saveEvents()
 }
 
 onMounted(async () => {
   if (hasGithubConfig()) {
-    customEvents.value = await syncCalendar(customEvents.value)
-    saveEvents()
+    const remote = await loadRemote('calendar')
+    if (remote && remote.data && remote.data.length) {
+      const map = new Map()
+      remote.data.forEach(e => map.set(e.id, e))
+      customEvents.value.forEach(e => map.set(e.id, e))
+      customEvents.value = [...map.values()]
+      saveEvents()
+    }
   }
 })
 </script>

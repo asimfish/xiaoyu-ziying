@@ -38,11 +38,9 @@
       <p v-if="selectedPdf" class="text-xs text-light-ink mt-2">已选: {{ selectedPdf.name }}</p>
     </div>
 
-    <!-- sync -->
-    <div v-if="hasGithubConfig()" class="flex justify-end mb-6">
-      <button @click="doSync" :disabled="syncing" class="text-sm text-friend-blue hover:text-friend-border transition-colors">
-        {{ syncing ? '同步中...' : '同步 GitHub' }}
-      </button>
+    <!-- sync status -->
+    <div v-if="syncing" class="flex justify-end mb-6">
+      <span class="text-sm text-friend-blue">同步中...</span>
     </div>
 
     <!-- papers list -->
@@ -85,7 +83,7 @@ import { uploadImage } from '@/libs/github'
 import dayjs from 'dayjs'
 
 const STORAGE_KEY = 'memorial-academic'
-const { syncing, syncData, hasGithubConfig } = useGithubSync()
+const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
 const { githubToken, githubOwner, githubRepo } = useSettings()
 
 const loadData = () => {
@@ -190,23 +188,17 @@ const addComment = async (paperId) => {
   save()
 
   if (hasGithubConfig()) {
-    const synced = await syncData('academic', data.value)
-    if (synced.folders) data.value = synced
-    save()
+    await saveRemote('academic', data.value)
   }
-}
-
-const doSync = async () => {
-  const synced = await syncData('academic', data.value)
-  if (synced.folders) data.value = synced
-  save()
 }
 
 onMounted(async () => {
   if (hasGithubConfig()) {
-    const synced = await syncData('academic', data.value)
-    if (synced.folders) data.value = synced
-    save()
+    const remote = await loadRemote('academic')
+    if (remote && remote.data && remote.data.folders) {
+      data.value = remote.data
+      save()
+    }
   }
 })
 </script>

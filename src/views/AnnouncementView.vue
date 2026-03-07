@@ -14,11 +14,9 @@
       </div>
     </div>
 
-    <!-- sync -->
-    <div v-if="hasGithubConfig()" class="flex justify-end mb-6">
-      <button @click="doSync" :disabled="syncing" class="text-sm text-friend-blue hover:text-friend-border transition-colors">
-        {{ syncing ? '同步中...' : '同步 GitHub' }}
-      </button>
+    <!-- sync status -->
+    <div v-if="syncing" class="flex justify-end mb-6">
+      <span class="text-sm text-friend-blue">同步中...</span>
     </div>
 
     <!-- list -->
@@ -42,7 +40,7 @@ import { useGithubSync } from '@/composables/use_github_sync'
 import dayjs from 'dayjs'
 
 const STORAGE_KEY = 'memorial-announcements'
-const { syncing, syncData, hasGithubConfig } = useGithubSync()
+const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
 
 const loadData = () => {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] }
@@ -71,20 +69,20 @@ const addAnnouncement = async () => {
   newContent.value = ''
 
   if (hasGithubConfig()) {
-    raw.value = await syncData('announcements', raw.value)
-    save()
+    await saveRemote('announcements', raw.value)
   }
-}
-
-const doSync = async () => {
-  raw.value = await syncData('announcements', raw.value)
-  save()
 }
 
 onMounted(async () => {
   if (hasGithubConfig()) {
-    raw.value = await syncData('announcements', raw.value)
-    save()
+    const remote = await loadRemote('announcements')
+    if (remote && remote.data && remote.data.length) {
+      const map = new Map()
+      remote.data.forEach(d => map.set(d.id, d))
+      raw.value.forEach(d => map.set(d.id, d))
+      raw.value = [...map.values()]
+      save()
+    }
   }
 })
 </script>

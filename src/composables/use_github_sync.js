@@ -11,7 +11,11 @@ const PATHS = {
   announcements: 'data/announcements.json',
   foods: 'data/foods.json',
   places: 'data/places.json',
-  academic: 'data/academic.json'
+  academic: 'data/academic.json',
+  analytics: 'data/analytics.json',
+  online: 'data/online.json',
+  chats: 'data/chats.json',
+  chat_memory_extra: 'data/chat_memory_extra.json'
 }
 
 export const useGithubSync = () => {
