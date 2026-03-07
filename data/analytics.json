@@ -355,5 +355,46 @@
         "time": "2026-03-07 21:32:40"
       }
     ]
+  },
+  {
+    "id": "session_1772890841943",
+    "user": "root",
+    "loginTime": "2026-03-07 21:40:41",
+    "device": {
+      "browser": "Chrome",
+      "os": "macOS",
+      "mobile": false,
+      "screen": "1728x1117"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:40:42",
+        "leave": "2026-03-07 21:40:44",
+        "duration": 2
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-07 21:40:44",
+        "leave": "2026-03-07 21:40:48",
+        "duration": 4
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 21:40:48",
+        "leave": "2026-03-07 21:40:48",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:40:41"
+      }
+    ]
   }
 ]
