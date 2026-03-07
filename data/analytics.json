@@ -347,5 +347,32 @@
         "time": "2026-03-07 20:28:51"
       }
     ]
+  },
+  {
+    "id": "session_1772890880417",
+    "user": "梓樱",
+    "loginTime": "2026-03-07 21:41:20",
+    "device": {
+      "browser": "Chrome",
+      "os": "macOS",
+      "mobile": false,
+      "screen": "1728x1117"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:41:20",
+        "leave": "",
+        "duration": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:41:20"
+      }
+    ]
   }
 ]
