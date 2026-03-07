@@ -711,5 +711,49 @@
         "time": "2026-03-07 21:58:51"
       }
     ]
+  },
+  {
+    "id": "session_1772892495820",
+    "user": "root",
+    "loginTime": "2026-03-07 22:08:15",
+    "device": {
+      "browser": "Chrome 145",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 22:08:16",
+        "leave": "2026-03-07 22:08:18",
+        "duration": 2
+      },
+      {
+        "path": "/food",
+        "name": "美食",
+        "enter": "2026-03-07 22:08:18",
+        "leave": "2026-03-07 22:08:19",
+        "duration": 1
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 22:08:19",
+        "leave": "2026-03-07 22:08:45",
+        "duration": 26
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 22:08:15"
+      }
+    ]
   }
 ]
