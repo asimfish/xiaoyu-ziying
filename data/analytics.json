@@ -259,8 +259,8 @@
         "path": "/announcements",
         "name": "公告",
         "enter": "2026-03-07 20:29:22",
-        "leave": "2026-03-07 23:15:16",
-        "duration": 9954
+        "leave": "2026-03-07 22:53:16",
+        "duration": 8634
       }
     ],
     "actions": [
@@ -899,6 +899,113 @@
         "type": "login",
         "detail": "登录成功",
         "time": "2026-03-07 22:10:22"
+      }
+    ]
+  },
+  {
+    "id": "session_1772896018671",
+    "user": "root",
+    "loginTime": "2026-03-07 23:06:58",
+    "device": {
+      "browser": "Chrome 145",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 23:06:59",
+        "leave": "2026-03-07 23:07:00",
+        "duration": 1
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-07 23:07:00",
+        "leave": "2026-03-07 23:07:02",
+        "duration": 2
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-07 23:07:02",
+        "leave": "2026-03-07 23:07:04",
+        "duration": 2
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:07:04",
+        "leave": "2026-03-07 23:07:49",
+        "duration": 45
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-07 23:07:49",
+        "leave": "2026-03-07 23:07:51",
+        "duration": 2
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-07 23:07:51",
+        "leave": "2026-03-07 23:07:52",
+        "duration": 1
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-07 23:07:52",
+        "leave": "2026-03-07 23:07:53",
+        "duration": 1
+      },
+      {
+        "path": "/announcements",
+        "name": "公告",
+        "enter": "2026-03-07 23:07:53",
+        "leave": "2026-03-07 23:07:54",
+        "duration": 1
+      },
+      {
+        "path": "/games",
+        "name": "游戏",
+        "enter": "2026-03-07 23:07:54",
+        "leave": "2026-03-07 23:07:55",
+        "duration": 1
+      },
+      {
+        "path": "/food",
+        "name": "美食",
+        "enter": "2026-03-07 23:07:55",
+        "leave": "2026-03-07 23:08:11",
+        "duration": 16
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:08:11",
+        "leave": "2026-03-07 23:10:50",
+        "duration": 159
+      },
+      {
+        "path": "/announcements",
+        "name": "公告",
+        "enter": "2026-03-07 23:10:50",
+        "leave": "2026-03-07 23:15:16",
+        "duration": 266
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 23:06:58"
       }
     ]
   }
