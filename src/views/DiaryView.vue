@@ -5,6 +5,7 @@
     <!-- 发帖/编辑区 -->
     <DiaryComposer
       :editing-diary="editingDiary"
+      :current-user="currentUser"
       @submit="onSubmit"
       @cancel="editingId = null"
     />

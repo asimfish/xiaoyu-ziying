@@ -93,12 +93,13 @@ import ImageUploader from '@/components/ImageUploader.vue'
 import { MOODS, WEATHERS } from '@/libs/diary_helpers'
 
 const props = defineProps({
-  editingDiary: { type: Object, default: null }
+  editingDiary: { type: Object, default: null },
+  currentUser: { type: String, default: 'xiaoyu' }
 })
 
 const emit = defineEmits(['submit', 'cancel'])
 
-const author = ref('xiaoyu')
+const author = ref(props.currentUser)
 const content = ref('')
 const title = ref('')
 const images = ref([])
@@ -107,9 +108,18 @@ const weather = ref('')
 const showTitle = ref(false)
 const showTags = ref(false)
 
-// 编辑模式预填
+// 编辑模式预填 / 取消时重置
 watch(() => props.editingDiary, (d) => {
-  if (!d) return
+  if (!d) {
+    content.value = ''
+    title.value = ''
+    images.value = []
+    mood.value = ''
+    weather.value = ''
+    showTitle.value = false
+    showTags.value = false
+    return
+  }
   content.value = d.content
   title.value = d.title ?? ''
   images.value = [...(d.images ?? [])]

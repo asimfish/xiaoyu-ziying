@@ -16,7 +16,7 @@
       </div>
       <!-- 操作菜单 -->
       <div v-if="isOwner" class="relative shrink-0">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full text-light-ink hover:bg-warm/50 transition-colors" @click="showMenu = !showMenu">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full text-light-ink hover:bg-warm/50 transition-colors" @click.stop="showMenu = !showMenu">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
         </button>
         <div v-if="showMenu" class="absolute right-0 top-9 bg-white rounded-lg shadow-lg py-1 z-10 min-w-[80px]">
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 import { USERS, relativeTimeStr, moodLabel, weatherLabel } from '@/libs/diary_helpers'
 import DiaryImageGrid from '@/components/diary_image_grid.vue'
@@ -79,6 +79,11 @@ const showComments = ref(false)
 
 const user = computed(() => USERS[props.diary.author] ?? { label: props.diary.author, avatar: '' })
 const isOwner = computed(() => props.diary.author === props.currentUser)
+
+// 点击外部关闭菜单
+const onDocClick = () => { showMenu.value = false }
+onMounted(() => document.addEventListener('click', onDocClick))
+onUnmounted(() => document.removeEventListener('click', onDocClick))
 
 const onDelete = () => {
   showMenu.value = false

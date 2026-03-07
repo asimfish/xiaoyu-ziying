@@ -39,6 +39,7 @@ export const REACTION_EMOJIS = ['\u2764\uFE0F', '\uD83D\uDE02', '\uD83D\uDE22', 
 // 标准化动态数据（兼容旧日记）
 export const normalizeDiary = (d) => ({
   ...d,
+  title: d.title ?? '',
   images: d.images ?? [],
   mood: d.mood ?? '',
   weather: d.weather ?? '',
