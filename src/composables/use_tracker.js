@@ -65,21 +65,91 @@ const getDeviceInfo = () => {
   const ua = navigator.userAgent
   let browser = '未知浏览器'
   let os = '未知系统'
+  let model = ''
   // 浏览器识别（顺序重要，微信/QQ 内置浏览器优先判断）
   if (/MicroMessenger/i.test(ua)) browser = '微信'
   else if (/QQ\//i.test(ua)) browser = 'QQ'
-  else if (/Edg/i.test(ua)) browser = 'Edge'
-  else if (/Chrome/i.test(ua)) browser = 'Chrome'
-  else if (/Safari/i.test(ua)) browser = 'Safari'
-  else if (/Firefox/i.test(ua)) browser = 'Firefox'
-  // 系统识别
-  if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS'
-  else if (/Android/i.test(ua)) os = 'Android'
-  else if (/Mac OS/i.test(ua)) os = 'macOS'
-  else if (/Windows/i.test(ua)) os = 'Windows'
-  else if (/Linux/i.test(ua)) os = 'Linux'
+  else if (/Edg\/([\d.]+)/i.test(ua)) browser = `Edge ${RegExp.$1.split('.')[0]}`
+  else if (/Chrome\/([\d.]+)/i.test(ua)) browser = `Chrome ${RegExp.$1.split('.')[0]}`
+  else if (/Version\/([\d.]+).*Safari/i.test(ua)) browser = `Safari ${RegExp.$1}`
+  else if (/Firefox\/([\d.]+)/i.test(ua)) browser = `Firefox ${RegExp.$1.split('.')[0]}`
+  // 系统 + 设备型号识别
+  if (/iPhone/.test(ua)) {
+    os = 'iOS'
+    // iPhone 无法从 UA 拿型号，用屏幕尺寸推断
+    const h = screen.height
+    const w = screen.width
+    const r = window.devicePixelRatio
+    model = guessIPhone(h, w, r)
+  } else if (/iPad/.test(ua)) {
+    os = 'iPadOS'
+    model = 'iPad'
+  } else if (/Android/.test(ua)) {
+    os = 'Android'
+    const m = ua.match(/;\s*([^;)]+)\s+Build/i)
+    if (m) model = m[1].trim()
+  } else if (/Mac OS X ([\d_]+)/.test(ua)) {
+    os = `macOS ${RegExp.$1.replace(/_/g, '.')}`
+    // 判断是否 Apple Silicon（通过 WebGL renderer）
+    model = guessMac()
+  } else if (/Windows NT ([\d.]+)/.test(ua)) {
+    const ver = RegExp.$1
+    const winMap = { '10.0': '10/11', '6.3': '8.1', '6.2': '8', '6.1': '7' }
+    os = `Windows ${winMap[ver] || ver}`
+  } else if (/Linux/.test(ua)) {
+    os = 'Linux'
+  }
   const isMobile = /Mobile|Android|iPhone/i.test(ua)
-  return { browser, os, mobile: isMobile, screen: `${screen.width}x${screen.height}` }
+  return {
+    browser, os, model, mobile: isMobile,
+    screen: `${screen.width}x${screen.height}`,
+    ua: ua.slice(0, 200),
+    location: ''
+  }
+}
+
+// 通过屏幕参数推断 iPhone 型号
+const guessIPhone = (h, w, r) => {
+  const key = `${Math.max(h, w)}_${Math.min(h, w)}_${r}`
+  const map = {
+    '932_430_3': 'iPhone 15 Pro Max / 16 Plus',
+    '852_393_3': 'iPhone 15 Pro / 16',
+    '896_414_3': 'iPhone 15 / 14 / 13 / 12',
+    '844_390_3': 'iPhone 14 / 13',
+    '926_428_3': 'iPhone 14 Plus / 13 Pro Max',
+    '812_375_3': 'iPhone 13 mini / 12 mini / X',
+    '736_414_3': 'iPhone 8 Plus',
+    '667_375_2': 'iPhone 8 / SE2 / SE3'
+  }
+  return map[key] || `iPhone (${key})`
+}
+
+// 通过 WebGL 推断 Mac 型号
+const guessMac = () => {
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl')
+    if (!gl) return 'Mac'
+    const ext = gl.getExtension('WEBGL_debug_renderer_info')
+    if (!ext) return 'Mac'
+    const renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)
+    if (/Apple M\d/i.test(renderer)) return renderer.match(/Apple M\d[\w]*/i)[0]
+    if (/Apple GPU/i.test(renderer)) return 'Apple Silicon Mac'
+    if (/Intel/i.test(renderer)) return 'Intel Mac'
+    return 'Mac'
+  } catch { return 'Mac' }
+}
+
+// 通过 IP 获取省级位置（异步，后续补充到 session）
+const fetchLocation = async () => {
+  try {
+    const res = await fetch('https://ipapi.co/json/', { cache: 'no-store' })
+    if (!res.ok) return ''
+    const data = await res.json()
+    // 中国返回 region，国外返回 country
+    if (data.country_code === 'CN') return data.region || data.city || '未知'
+    return `${data.country_name} ${data.region || ''}`.trim()
+  } catch { return '' }
 }
 
 // 开始新会话（追踪所有用户）
@@ -97,6 +167,13 @@ const startSession = (user) => {
   startAutoFlush()
   // 立即 flush 一次，确保登录记录实时同步
   flush()
+  // 异步获取位置，拿到后补充并再次 flush
+  fetchLocation().then(loc => {
+    if (loc && session) {
+      session.device.location = loc
+      flush()
+    }
+  })
   window.addEventListener('beforeunload', onBeforeUnload)
 }
 

@@ -24,7 +24,7 @@
         <div class="flex items-center justify-between mb-3">
           <span class="font-serif text-sm text-ink">{{ s.loginTime }}</span>
           <span v-if="s.device" class="text-xs text-light-ink bg-cream px-2 py-0.5 rounded-full">
-            {{ s.device.browser }} / {{ s.device.os }}{{ s.device.mobile ? ' / 手机' : '' }} / {{ s.device.screen }}
+            {{ [s.device.location, s.device.model, s.device.browser, s.device.os, s.device.mobile ? '手机' : '电脑', s.device.screen].filter(Boolean).join(' / ') }}
           </span>
         </div>
         <!-- 页面浏览 -->

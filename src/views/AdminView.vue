@@ -62,6 +62,11 @@
       <div v-if="loading" class="text-center text-light-ink py-16">加载中...</div>
     </div>
 
+    <!-- 每日总结 -->
+    <div v-if="activeTab === 'daily'">
+      <DailySummary :sessions="sessions" />
+    </div>
+
     <!-- 梓樱的记录 -->
     <div v-if="activeTab === 'ziying'">
       <UserRecords :sessions="ziyingSessions" :loading="loading" user="梓樱" />
@@ -106,6 +111,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 import UserRecords from '@/components/UserRecords.vue'
+import DailySummary from '@/components/DailySummary.vue'
 import { useGithubSync } from '@/composables/use_github_sync'
 import { onlineStatus, isOnline, fetchOnlineStatus } from '@/composables/use_online'
 
@@ -114,6 +120,7 @@ const { loadRemote, saveRemote } = useGithubSync()
 
 const tabs = [
   { id: 'overview', label: '概览' },
+  { id: 'daily', label: '每日总结' },
   { id: 'ziying', label: '梓樱的记录' },
   { id: 'xiaoyu', label: '小鱼的记录' },
   { id: 'chats', label: '聊天记录' }
