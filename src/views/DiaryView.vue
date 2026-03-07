@@ -38,13 +38,14 @@ import { ref, computed, onMounted } from 'vue'
 
 import { getUser } from '@/router'
 import { useAutoSync } from '@/composables/use_auto_sync'
-import { normalizeDiary, mergeDiaries } from '@/libs/diary_helpers'
+import { normalizeDiary, mergeDiaries, normalizeUserId } from '@/libs/diary_helpers'
 import DiaryComposer from '@/components/diary_composer.vue'
 import DiaryCard from '@/components/diary_card.vue'
 import DiaryFilterBar from '@/components/diary_filter_bar.vue'
 import dayjs from 'dayjs'
 
-const currentUser = getUser()
+// 登录名 → 标准 key（'小鱼' → 'xiaoyu'，'root' → 'xiaoyu'）
+const currentUser = normalizeUserId(getUser())
 
 const { data: diariesRaw, save, init, loaded } = useAutoSync('diaries', { merge: mergeDiaries })
 

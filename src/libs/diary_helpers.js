@@ -7,11 +7,17 @@ dayjs.locale('zh-cn')
 
 const base = import.meta.env.BASE_URL
 
-// 用户信息
+// 用户信息（支持英文 key、中文名、root 三种查找）
+const _xiaoyu = { key: 'xiaoyu', label: '小鱼', avatar: `${base}assets/images/avatars/xiaoyu.png`, colorClass: 'bg-rose/20 text-deep-rose' }
+const _ziying = { key: 'ziying', label: '梓樱', avatar: `${base}assets/images/avatars/ziying.png`, colorClass: 'bg-friend-border/20 text-friend-blue' }
+
 export const USERS = {
-  xiaoyu: { label: '小鱼', avatar: `${base}assets/images/avatars/xiaoyu.png`, colorClass: 'bg-rose/20 text-deep-rose' },
-  ziying: { label: '梓樱', avatar: `${base}assets/images/avatars/ziying.png`, colorClass: 'bg-friend-border/20 text-friend-blue' }
+  xiaoyu: _xiaoyu, '小鱼': _xiaoyu, root: _xiaoyu,
+  ziying: _ziying, '梓樱': _ziying
 }
+
+// 登录名 → 标准 key（IdentityPicker 用的 key）
+export const normalizeUserId = (name) => USERS[name]?.key ?? 'xiaoyu'
 
 // 心情选项
 export const MOODS = [
