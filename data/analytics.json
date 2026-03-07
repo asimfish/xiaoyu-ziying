@@ -792,5 +792,49 @@
         "time": "2026-03-07 22:09:20"
       }
     ]
+  },
+  {
+    "id": "session_1772892654997",
+    "user": "root",
+    "loginTime": "2026-03-07 22:10:54",
+    "device": {
+      "browser": "微信",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) MacWechat/3.8.7(0x13080712) Un",
+      "location": "Hong Kong Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 22:10:55",
+        "leave": "2026-03-07 22:10:57",
+        "duration": 2
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-07 22:10:57",
+        "leave": "2026-03-07 22:10:58",
+        "duration": 1
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 22:10:58",
+        "leave": "2026-03-07 22:42:16",
+        "duration": 1878
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 22:10:54"
+      }
+    ]
   }
 ]
