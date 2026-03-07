@@ -5,13 +5,13 @@
     "pageName": "聊天"
   },
   "梓樱": {
-    "lastSeen": "2026-03-07 21:58:17",
+    "lastSeen": "2026-03-07 21:58:07",
     "page": "/diary",
     "pageName": "日记"
   },
   "root": {
-    "lastSeen": "2026-03-07 21:58:12",
-    "page": "/",
-    "pageName": "首页"
+    "lastSeen": "2026-03-07 21:58:18",
+    "page": "/admin",
+    "pageName": "管理"
   }
 }
