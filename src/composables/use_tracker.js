@@ -47,7 +47,9 @@ const flush = async () => {
   if (!hasGithubConfig()) { flushing = false; return }
   // 始终从远程读取最新数据再合并
   const remote = await loadRemote('analytics')
-  const list = (remote && Array.isArray(remote.data)) ? remote.data : []
+  // 读取失败时不写入，防止用空数组覆盖历史数据
+  if (!remote) { flushing = false; return }
+  const list = Array.isArray(remote.data) ? remote.data : []
   const idx = list.findIndex((s) => s.id === session.id)
   if (idx >= 0) {
     list[idx] = { ...session }
@@ -255,7 +257,9 @@ const flushBuffer = async () => {
     const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
     if (!hasGithubConfig()) return
     const remote = await loadRemote('analytics')
-    const list = (remote && Array.isArray(remote.data)) ? remote.data : []
+    // 读取失败时不写入，防止用空数组覆盖历史数据
+    if (!remote) return
+    const list = Array.isArray(remote.data) ? remote.data : []
     const idx = list.findIndex((s) => s.id === buffered.id)
     if (idx >= 0) {
       list[idx] = buffered

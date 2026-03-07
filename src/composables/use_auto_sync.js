@@ -1,11 +1,11 @@
-// 自动同步 - 3秒轮询 GitHub + 冲突合并重试
+// 自动同步 - 15秒轮询 GitHub + 冲突合并重试
 // 解决跨浏览器/跨设备实时同步问题
 
 import { ref, onUnmounted } from 'vue'
 
 import { useGithubSync } from './use_github_sync'
 
-const POLL_INTERVAL = 3000
+const POLL_INTERVAL = 15000
 
 export const useAutoSync = (type, options = {}) => {
   const { loadRemote, saveRemote, hasGithubConfig } = useGithubSync()

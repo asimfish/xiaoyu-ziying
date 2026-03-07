@@ -218,7 +218,7 @@ onMounted(async () => {
   if (memRemote && memRemote.data) {
     memoryIds.value = new Set(memRemote.data.map(m => m.id))
   }
-  dataPollTimer = setInterval(pollData, 3000)
+  dataPollTimer = setInterval(pollData, 15000)
 })
 
 onUnmounted(() => {
