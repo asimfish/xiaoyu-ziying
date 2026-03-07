@@ -93,7 +93,11 @@
     "mood": "",
     "weather": "",
     "likes": [],
-    "reactions": {},
+    "reactions": {
+      "❤️": [
+        "小鱼"
+      ]
+    },
     "comments": [
       {
         "id": 1772901310286,
