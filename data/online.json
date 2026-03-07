@@ -1,6 +1,6 @@
 {
   "小鱼": {
-    "lastSeen": "2026-03-07 23:20:17",
+    "lastSeen": "2026-03-07 23:16:17",
     "page": "/announcements",
     "pageName": "公告"
   },
@@ -10,8 +10,8 @@
     "pageName": "日记"
   },
   "root": {
-    "lastSeen": "2026-03-07 23:19:58",
-    "page": "/gallery",
-    "pageName": "相册"
+    "lastSeen": "2026-03-07 23:20:17",
+    "page": "/admin",
+    "pageName": "管理"
   }
 }
