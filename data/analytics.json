@@ -1481,8 +1481,15 @@
         "path": "/gallery",
         "name": "相册",
         "enter": "2026-03-07 23:33:55",
-        "leave": "2026-03-07 23:35:00",
-        "duration": 65
+        "leave": "2026-03-07 23:35:32",
+        "duration": 97
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 23:35:32",
+        "leave": "",
+        "duration": 0
       }
     ],
     "actions": [
