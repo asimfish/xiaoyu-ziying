@@ -548,5 +548,49 @@
         "time": "2026-03-07 21:50:10"
       }
     ]
+  },
+  {
+    "id": "session_1772891438793",
+    "user": "root",
+    "loginTime": "2026-03-07 21:50:38",
+    "device": {
+      "browser": "微信",
+      "os": "macOS 10.15.7",
+      "model": "Apple M2",
+      "mobile": false,
+      "screen": "1728x1117",
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) MacWechat/3.8.7(0x13080712) Un",
+      "location": "Hong Kong"
+    },
+    "pages": [
+      {
+        "path": "/",
+        "name": "首页",
+        "enter": "2026-03-07 21:50:38",
+        "leave": "2026-03-07 21:50:40",
+        "duration": 2
+      },
+      {
+        "path": "/food",
+        "name": "美食",
+        "enter": "2026-03-07 21:50:40",
+        "leave": "2026-03-07 21:50:41",
+        "duration": 1
+      },
+      {
+        "path": "/admin",
+        "name": "管理",
+        "enter": "2026-03-07 21:50:41",
+        "leave": "2026-03-07 21:51:08",
+        "duration": 27
+      }
+    ],
+    "actions": [
+      {
+        "type": "login",
+        "detail": "登录成功",
+        "time": "2026-03-07 21:50:38"
+      }
+    ]
   }
 ]
