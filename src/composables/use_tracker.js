@@ -159,15 +159,28 @@ const guessMac = () => {
   } catch { return 'Mac' }
 }
 
-// 通过 IP 获取省级位置（异步，后续补充到 session）
+// 通过 IP 获取位置（区级精度）
+// 优先用 pconline（中国区级），fallback 到 ipinfo.io（城市级）
 const fetchLocation = async () => {
+  // 尝试 pconline（返回 GBK 编码，精确到区）
   try {
-    const res = await fetch('https://ipapi.co/json/', { cache: 'no-store' })
+    const res = await fetch('https://whois.pconline.com.cn/ipJson.jsp?json=true', { cache: 'no-store' })
+    if (res.ok) {
+      const buf = await res.arrayBuffer()
+      const text = new TextDecoder('gbk').decode(buf)
+      const data = JSON.parse(text)
+      if (data.pro) {
+        const parts = [data.pro, data.city !== data.pro ? data.city : '', data.region].filter(Boolean)
+        return parts.join(' ')
+      }
+    }
+  } catch { /* fallback */ }
+  // fallback: ipinfo.io
+  try {
+    const res = await fetch('https://ipinfo.io/json', { cache: 'no-store' })
     if (!res.ok) return ''
     const data = await res.json()
-    // 中国返回 region，国外返回 country
-    if (data.country_code === 'CN') return data.region || data.city || '未知'
-    return `${data.country_name} ${data.region || ''}`.trim()
+    return [data.region, data.city].filter(Boolean).join(' ')
   } catch { return '' }
 }
 
