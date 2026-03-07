@@ -336,8 +336,8 @@
         "path": "/announcements",
         "name": "公告",
         "enter": "2026-03-07 20:29:22",
-        "leave": "2026-03-07 21:53:16",
-        "duration": 5034
+        "leave": "2026-03-07 21:51:16",
+        "duration": 4914
       }
     ],
     "actions": [
@@ -537,8 +537,15 @@
         "path": "/",
         "name": "首页",
         "enter": "2026-03-07 21:50:10",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-07 21:50:12",
+        "duration": 2
+      },
+      {
+        "path": "/food",
+        "name": "美食",
+        "enter": "2026-03-07 21:50:12",
+        "leave": "2026-03-07 21:53:16",
+        "duration": 184
       }
     ],
     "actions": [
