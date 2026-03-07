@@ -16,11 +16,6 @@
       </div>
     </div>
 
-    <!-- sync status -->
-    <div v-if="syncing" class="flex justify-end mb-6">
-      <span class="text-sm text-friend-blue">同步中...</span>
-    </div>
-
     <!-- list -->
     <div v-for="f in foods" :key="f.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5 mb-4">
       <div class="flex items-center justify-between mb-2">
@@ -39,20 +34,20 @@
 import { ref, computed, onMounted } from 'vue'
 
 import IdentityPicker from '@/components/IdentityPicker.vue'
-import { useGithubSync } from '@/composables/use_github_sync'
+import { useAutoSync } from '@/composables/use_auto_sync'
 import dayjs from 'dayjs'
 
-const STORAGE_KEY = 'memorial-foods'
-const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
+const PRESET = [{
+  id: 1,
+  date: '2025-12-01',
+  location: '上海交通大学闵行校区龙湖天街',
+  dish: '聚鑫阁 - 疯狂的芋头',
+  note: '梓樱特别喜欢',
+  author: 'xiaoyu'
+}]
 
-const loadData = () => {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] }
-  catch { return [] }
-}
-
-const raw = ref(loadData())
+const { data: raw, save, init } = useAutoSync('foods', { default: PRESET })
 const foods = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
-const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(raw.value))
 
 const newDate = ref(dayjs().format('YYYY-MM-DD'))
 const newLocation = ref('')
@@ -62,46 +57,19 @@ const newAuthor = ref('xiaoyu')
 
 const addFood = async () => {
   if (!newDish.value.trim()) return
-  raw.value.push({
+  const newList = [...raw.value, {
     id: Date.now(),
     date: newDate.value,
     location: newLocation.value.trim(),
     dish: newDish.value.trim(),
     note: newNote.value.trim(),
     author: newAuthor.value
-  })
-  save()
+  }]
   newDish.value = ''
   newNote.value = ''
   newLocation.value = ''
-
-  if (hasGithubConfig()) {
-    await saveRemote('foods', raw.value)
-  }
+  await save(newList)
 }
 
-// 预设数据
-onMounted(async () => {
-  if (!raw.value.length) {
-    raw.value = [{
-      id: 1,
-      date: '2025-12-01',
-      location: '上海交通大学闵行校区龙湖天街',
-      dish: '聚鑫阁 - 疯狂的芋头',
-      note: '梓樱特别喜欢',
-      author: 'xiaoyu'
-    }]
-    save()
-  }
-  if (hasGithubConfig()) {
-    const remote = await loadRemote('foods')
-    if (remote && remote.data && remote.data.length) {
-      const map = new Map()
-      remote.data.forEach(d => map.set(d.id, d))
-      raw.value.forEach(d => map.set(d.id, d))
-      raw.value = [...map.values()]
-      save()
-    }
-  }
-})
+onMounted(() => init())
 </script>

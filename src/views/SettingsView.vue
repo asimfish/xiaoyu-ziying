@@ -63,7 +63,7 @@ const testMinimax = async () => {
   testingChat.value = true
   chatStatus.value = ''
   try {
-    const res = await fetch('/api/minimax/v1/text/chatcompletion_v2', {
+    const res = await fetch('https://api.minimax.chat/v1/text/chatcompletion_v2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

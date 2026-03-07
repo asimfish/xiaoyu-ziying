@@ -74,7 +74,7 @@
 
     <!-- 聊天记录 -->
     <div v-if="activeTab === 'chats'">
-      <div v-if="chatsLoading" class="text-center text-light-ink py-16">加载中...</div>
+      <div v-if="loading" class="text-center text-light-ink py-16">加载中...</div>
       <div v-else-if="!chatSceneIds.length" class="text-center text-light-ink py-16">暂无聊天记录</div>
       <template v-else>
         <div v-for="sceneId in chatSceneIds" :key="sceneId" class="mb-8">
@@ -123,10 +123,10 @@ const activeTab = ref('overview')
 const loading = ref(true)
 const sessions = ref([])
 const allChats = ref({})
-const chatsLoading = ref(false)
 const memoryIds = ref(new Set())
 
 let pollTimer = null
+let dataPollTimer = null
 
 const getAvatar = (u) => u === '小鱼'
   ? `${base}assets/images/avatars/xiaoyu.png`
@@ -190,30 +190,32 @@ const addToMemory = async (sceneId, chat) => {
   memoryIds.value = new Set([...memoryIds.value, chat.id])
 }
 
-const loadChats = async () => {
-  chatsLoading.value = true
-  const remote = await loadRemote('chats')
-  if (remote && remote.data) allChats.value = remote.data
-  // 加载已有记忆 ID
-  const memRemote = await loadRemote('chat_memory_extra')
-  if (memRemote && memRemote.data) {
-    memoryIds.value = new Set(memRemote.data.map(m => m.id))
+// 3秒轮询刷新 analytics + chats
+const pollData = async () => {
+  const remote = await loadRemote('analytics')
+  if (remote && remote.data && Array.isArray(remote.data)) {
+    sessions.value = remote.data.sort((a, b) => b.loginTime.localeCompare(a.loginTime))
   }
-  chatsLoading.value = false
+  // 聊天记录也刷新
+  const chatRemote = await loadRemote('chats')
+  if (chatRemote && chatRemote.data) allChats.value = chatRemote.data
 }
 
 onMounted(async () => {
   fetchOnlineStatus()
   pollTimer = setInterval(fetchOnlineStatus, 15000)
-  const remote = await loadRemote('analytics')
-  if (remote && remote.data && Array.isArray(remote.data)) {
-    sessions.value = remote.data.sort((a, b) => b.loginTime.localeCompare(a.loginTime))
-  }
+  await pollData()
   loading.value = false
-  loadChats()
+  // 加载记忆 ID
+  const memRemote = await loadRemote('chat_memory_extra')
+  if (memRemote && memRemote.data) {
+    memoryIds.value = new Set(memRemote.data.map(m => m.id))
+  }
+  dataPollTimer = setInterval(pollData, 3000)
 })
 
 onUnmounted(() => {
   if (pollTimer) clearInterval(pollTimer)
+  if (dataPollTimer) clearInterval(dataPollTimer)
 })
 </script>

@@ -7,16 +7,9 @@
       <IdentityPicker v-model="newAuthor" />
       <input v-model="newTitle" placeholder="公告标题" class="w-full text-lg font-serif text-ink bg-transparent border-b border-warm pb-2 mb-4 outline-none placeholder:text-light-ink/50">
       <textarea v-model="newContent" placeholder="公告内容..." rows="3" class="w-full text-ink bg-transparent border-none outline-none resize-none leading-[1.8] placeholder:text-light-ink/50"></textarea>
-      <div class="flex justify-between items-center mt-4">
-        <span v-if="syncing" class="text-sm text-light-ink">同步中...</span>
-        <span v-else></span>
+      <div class="flex justify-end mt-4">
         <button @click="addAnnouncement" :disabled="!newTitle.trim() || !newContent.trim()" class="px-6 py-2 rounded-full bg-deep-rose text-white text-sm tracking-wider hover:bg-rose transition-colors disabled:opacity-40">发布</button>
       </div>
-    </div>
-
-    <!-- sync status -->
-    <div v-if="syncing" class="flex justify-end mb-6">
-      <span class="text-sm text-friend-blue">同步中...</span>
     </div>
 
     <!-- list -->
@@ -36,20 +29,11 @@
 import { ref, computed, onMounted } from 'vue'
 
 import IdentityPicker from '@/components/IdentityPicker.vue'
-import { useGithubSync } from '@/composables/use_github_sync'
+import { useAutoSync } from '@/composables/use_auto_sync'
 import dayjs from 'dayjs'
 
-const STORAGE_KEY = 'memorial-announcements'
-const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
-
-const loadData = () => {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] }
-  catch { return [] }
-}
-
-const raw = ref(loadData())
+const { data: raw, save, init } = useAutoSync('announcements')
 const announcements = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
-const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(raw.value))
 
 const newTitle = ref('')
 const newContent = ref('')
@@ -57,32 +41,17 @@ const newAuthor = ref('xiaoyu')
 
 const addAnnouncement = async () => {
   if (!newTitle.value.trim() || !newContent.value.trim()) return
-  raw.value.push({
+  const newList = [...raw.value, {
     id: Date.now(),
     title: newTitle.value.trim(),
     content: newContent.value.trim(),
     date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     author: newAuthor.value
-  })
-  save()
+  }]
   newTitle.value = ''
   newContent.value = ''
-
-  if (hasGithubConfig()) {
-    await saveRemote('announcements', raw.value)
-  }
+  await save(newList)
 }
 
-onMounted(async () => {
-  if (hasGithubConfig()) {
-    const remote = await loadRemote('announcements')
-    if (remote && remote.data && remote.data.length) {
-      const map = new Map()
-      remote.data.forEach(d => map.set(d.id, d))
-      raw.value.forEach(d => map.set(d.id, d))
-      raw.value = [...map.values()]
-      save()
-    }
-  }
-})
+onMounted(() => init())
 </script>

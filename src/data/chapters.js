@@ -2,9 +2,11 @@
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 const IMG = `${BASE}/assets/images`
 const EXTRA = `${BASE}/assets/extra`
-const CHAT_IMG = `${BASE}/assets/chat-images`
-const CHAT_VID = `${BASE}/assets/chat-videos`
-const CHAT_EMOJI = `${BASE}/assets/chat-emoji`
+// 大媒体文件托管在 HF dataset 仓库
+const HF_MEDIA = 'https://hf-mirror.com/datasets/xiongdi/xiaoyu-ziying-media/resolve/main'
+const CHAT_IMG = `${HF_MEDIA}/chat-images`
+const CHAT_VID = `${HF_MEDIA}/chat-videos`
+const CHAT_EMOJI = `${HF_MEDIA}/chat-emoji`
 
 // 上篇: 爱人
 export const lovePart = {

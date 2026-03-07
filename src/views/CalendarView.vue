@@ -30,11 +30,6 @@
       </div>
     </div>
 
-    <!-- sync status -->
-    <div v-if="syncing" class="flex justify-end mb-6">
-      <span class="text-sm text-friend-blue">同步中...</span>
-    </div>
-
     <!-- events list for selected month -->
     <div class="space-y-0">
       <CalendarEvent v-for="e in monthEvents" :key="e.id" :event="e" />
@@ -49,31 +44,16 @@ import { ref, computed, onMounted } from 'vue'
 import CalendarGrid from '@/components/CalendarGrid.vue'
 import CalendarEvent from '@/components/CalendarEvent.vue'
 import { calendarPresets } from '@/data/calendar_presets'
-import { useGithubSync } from '@/composables/use_github_sync'
+import { useAutoSync } from '@/composables/use_auto_sync'
 
-const STORAGE_KEY = 'memorial-calendar'
-
-const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
-
-const loadEvents = () => {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
-  } catch {
-    return []
-  }
-}
-
-const customEvents = ref(loadEvents())
-const saveEvents = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(customEvents.value))
+const { data: customEvents, save, init } = useAutoSync('calendar')
 
 const allEvents = computed(() => [...calendarPresets, ...customEvents.value])
 
-// 选中日期的事件
 const selectedDateEvents = computed(() =>
   allEvents.value.filter(e => e.date === selectedDate.value).sort((a, b) => a.id > b.id ? 1 : -1)
 )
 
-// 当前月份事件
 const monthEvents = computed(() => {
   const now = new Date()
   const pad = (n) => String(n).padStart(2, '0')
@@ -97,32 +77,17 @@ const onSelectDate = (dateStr) => {
 
 const addEvent = async () => {
   if (!newEventTitle.value.trim()) return
-  customEvents.value.push({
+  const newList = [...customEvents.value, {
     id: `custom-${Date.now()}`,
     date: selectedDate.value,
     title: newEventTitle.value.trim(),
     emoji: newEmoji.value || '📌',
     note: newEventNote.value.trim(),
     color: 'rose'
-  })
-  saveEvents()
+  }]
   selectedDate.value = ''
-
-  if (hasGithubConfig()) {
-    await saveRemote('calendar', customEvents.value)
-  }
+  await save(newList)
 }
 
-onMounted(async () => {
-  if (hasGithubConfig()) {
-    const remote = await loadRemote('calendar')
-    if (remote && remote.data && remote.data.length) {
-      const map = new Map()
-      remote.data.forEach(e => map.set(e.id, e))
-      customEvents.value.forEach(e => map.set(e.id, e))
-      customEvents.value = [...map.values()]
-      saveEvents()
-    }
-  }
-})
+onMounted(() => init())
 </script>

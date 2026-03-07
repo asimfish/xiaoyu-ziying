@@ -38,11 +38,6 @@
       <p v-if="selectedPdf" class="text-xs text-light-ink mt-2">已选: {{ selectedPdf.name }}</p>
     </div>
 
-    <!-- sync status -->
-    <div v-if="syncing" class="flex justify-end mb-6">
-      <span class="text-sm text-friend-blue">同步中...</span>
-    </div>
-
     <!-- papers list -->
     <div v-for="p in filteredPapers" :key="p.id" class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-6 mb-4">
       <div class="flex items-center justify-between mb-2">
@@ -77,26 +72,45 @@
 import { ref, computed, reactive, onMounted } from 'vue'
 
 import IdentityPicker from '@/components/IdentityPicker.vue'
+import { useAutoSync } from '@/composables/use_auto_sync'
 import { useGithubSync } from '@/composables/use_github_sync'
 import { useSettings } from '@/composables/use_settings'
 import { uploadImage } from '@/libs/github'
 import dayjs from 'dayjs'
 
-const STORAGE_KEY = 'memorial-academic'
-const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
+const { hasGithubConfig } = useGithubSync()
 const { githubToken, githubOwner, githubRepo } = useSettings()
 
-const loadData = () => {
-  try {
-    const d = JSON.parse(localStorage.getItem(STORAGE_KEY))
-    return d || { folders: [], papers: [] }
-  } catch { return { folders: [], papers: [] } }
+// 自定义合并：folders 按 id 合并，papers 按 id 合并（含 comments）
+const mergeAcademic = (remote, local) => {
+  if (!remote || !remote.folders) return local
+  const fMap = new Map()
+  ;(remote.folders || []).forEach(f => fMap.set(f.id, f))
+  ;(local.folders || []).forEach(f => fMap.set(f.id, f))
+  const pMap = new Map()
+  ;(remote.papers || []).forEach(p => pMap.set(p.id, p))
+  ;(local.papers || []).forEach(p => {
+    const existing = pMap.get(p.id)
+    if (existing) {
+      // 合并 comments
+      const cMap = new Map()
+      ;(existing.comments || []).forEach(c => cMap.set(c.id, c))
+      ;(p.comments || []).forEach(c => cMap.set(c.id, c))
+      pMap.set(p.id, { ...p, comments: [...cMap.values()] })
+    } else {
+      pMap.set(p.id, p)
+    }
+  })
+  return { folders: [...fMap.values()], papers: [...pMap.values()] }
 }
 
-const data = ref(loadData())
-const folders = computed(() => data.value.folders)
-const papers = computed(() => data.value.papers)
-const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(data.value))
+const { data, save, init } = useAutoSync('academic', {
+  default: { folders: [], papers: [] },
+  merge: mergeAcademic
+})
+
+const folders = computed(() => data.value.folders || [])
+const papers = computed(() => data.value.papers || [])
 
 const activeFolder = ref(null)
 const filteredPapers = computed(() => {
@@ -108,11 +122,14 @@ const getFolderName = (id) => folders.value.find(f => f.id === id)?.name || '未
 
 // folder
 const newFolderName = ref('')
-const addFolder = () => {
+const addFolder = async () => {
   if (!newFolderName.value.trim()) return
-  data.value.folders.push({ id: `folder-${Date.now()}`, name: newFolderName.value.trim() })
-  save()
+  const newData = {
+    folders: [...folders.value, { id: `folder-${Date.now()}`, name: newFolderName.value.trim() }],
+    papers: [...papers.value]
+  }
   newFolderName.value = ''
+  await save(newData)
 }
 
 // paper
@@ -131,7 +148,6 @@ const addPaper = async () => {
   let fileName = ''
   let githubPath = ''
 
-  // 上传 PDF 到 GitHub
   if (selectedPdf.value && hasGithubConfig()) {
     uploading.value = true
     const folderName = getFolderName(newPaperFolder.value)
@@ -149,23 +165,20 @@ const addPaper = async () => {
     uploading.value = false
   }
 
-  data.value.papers.push({
-    id: Date.now(),
-    folderId: newPaperFolder.value,
-    title: newPaperTitle.value.trim(),
-    fileName,
-    githubPath,
-    comments: []
-  })
-  save()
+  const newData = {
+    folders: [...folders.value],
+    papers: [...papers.value, {
+      id: Date.now(),
+      folderId: newPaperFolder.value,
+      title: newPaperTitle.value.trim(),
+      fileName,
+      githubPath,
+      comments: []
+    }]
+  }
   newPaperTitle.value = ''
   selectedPdf.value = null
-
-  if (hasGithubConfig()) {
-    const synced = await syncData('academic', data.value)
-    if (synced.folders) data.value = synced
-    save()
-  }
+  await save(newData)
 }
 
 // comments
@@ -175,30 +188,20 @@ const commentAuthors = reactive({})
 const addComment = async (paperId) => {
   const text = commentTexts[paperId]?.trim()
   if (!text) return
-  const paper = data.value.papers.find(p => p.id === paperId)
+  const paper = papers.value.find(p => p.id === paperId)
   if (!paper) return
-  if (!paper.comments) paper.comments = []
-  paper.comments.push({
-    id: Date.now(),
-    author: commentAuthors[paperId] || 'xiaoyu',
-    content: text,
-    date: dayjs().format('YYYY-MM-DD HH:mm:ss')
+  const updatedPapers = papers.value.map(p => {
+    if (p.id !== paperId) return p
+    return { ...p, comments: [...(p.comments || []), {
+      id: Date.now(),
+      author: commentAuthors[paperId] || 'xiaoyu',
+      content: text,
+      date: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    }]}
   })
   commentTexts[paperId] = ''
-  save()
-
-  if (hasGithubConfig()) {
-    await saveRemote('academic', data.value)
-  }
+  await save({ folders: [...folders.value], papers: updatedPapers })
 }
 
-onMounted(async () => {
-  if (hasGithubConfig()) {
-    const remote = await loadRemote('academic')
-    if (remote && remote.data && remote.data.folders) {
-      data.value = remote.data
-      save()
-    }
-  }
-})
+onMounted(() => init())
 </script>

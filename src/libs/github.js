@@ -16,7 +16,9 @@ export const readFile = async (token, owner, repo, path) => {
   if (res.status === 404) return { content: null, sha: null }
   if (!res.ok) return { content: null, sha: null, error: `${res.status} ${res.statusText}` }
   const data = await res.json()
-  const content = atob(data.content.replace(/\n/g, ''))
+  const raw = atob(data.content.replace(/\n/g, ''))
+  const bytes = Uint8Array.from(raw, (c) => c.charCodeAt(0))
+  const content = new TextDecoder().decode(bytes)
   return { content, sha: data.sha }
 }
 

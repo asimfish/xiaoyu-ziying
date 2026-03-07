@@ -2,6 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: { public: true }
+  },
+  {
     path: '/',
     name: 'home',
     component: () => import('@/views/HomePage.vue')
@@ -65,6 +71,12 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: () => import('@/views/SettingsView.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/views/AdminView.vue'),
+    meta: { admin: true }
   }
 ]
 
@@ -76,4 +88,18 @@ const router = createRouter({
   }
 })
 
+router.beforeEach((to) => {
+  if (to.meta.public) return true
+  if (!sessionStorage.getItem('memorial-auth')) return '/login'
+  if (to.meta.admin && getUser() !== '小鱼') return '/'
+  return true
+})
+
 export default router
+
+export const isLoggedIn = () => !!sessionStorage.getItem('memorial-auth')
+export const getUser = () => sessionStorage.getItem('memorial-auth')
+export const logout = () => {
+  sessionStorage.removeItem('memorial-auth')
+  router.replace('/login')
+}

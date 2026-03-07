@@ -14,15 +14,9 @@
         <ImageUploader v-if="hasGithubConfig()" @uploaded="onImageUploaded" />
         <button @click="addPlace" :disabled="!newPlace.trim()" class="px-6 py-2 rounded-full bg-deep-rose text-white text-sm tracking-wider hover:bg-rose transition-colors disabled:opacity-40">添加</button>
       </div>
-      <!-- image previews -->
       <div v-if="newImages.length" class="mt-3 flex flex-wrap gap-2">
         <span v-for="(img, i) in newImages" :key="i" class="text-xs text-light-ink bg-cream px-2 py-1 rounded">{{ img.path }}</span>
       </div>
-    </div>
-
-    <!-- sync status -->
-    <div v-if="syncing" class="flex justify-end mb-6">
-      <span class="text-sm text-friend-blue">同步中...</span>
     </div>
 
     <!-- list -->
@@ -46,20 +40,13 @@ import { ref, computed, onMounted } from 'vue'
 
 import IdentityPicker from '@/components/IdentityPicker.vue'
 import ImageUploader from '@/components/ImageUploader.vue'
+import { useAutoSync } from '@/composables/use_auto_sync'
 import { useGithubSync } from '@/composables/use_github_sync'
 import dayjs from 'dayjs'
 
-const STORAGE_KEY = 'memorial-places'
-const { syncing, loadRemote, saveRemote, hasGithubConfig } = useGithubSync()
-
-const loadData = () => {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] }
-  catch { return [] }
-}
-
-const raw = ref(loadData())
+const { hasGithubConfig } = useGithubSync()
+const { data: raw, save, init } = useAutoSync('places')
 const places = computed(() => [...raw.value].sort((a, b) => b.id - a.id))
-const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(raw.value))
 
 const newDate = ref(dayjs().format('YYYY-MM-DD'))
 const newPlace = ref('')
@@ -67,51 +54,23 @@ const newDesc = ref('')
 const newAuthor = ref('xiaoyu')
 const newImages = ref([])
 
-const onImageUploaded = ({ url, path }) => {
-  newImages.value.push({ url, path })
-}
+const onImageUploaded = (img) => newImages.value.push(img)
 
 const addPlace = async () => {
   if (!newPlace.value.trim()) return
-  raw.value.push({
+  const newList = [...raw.value, {
     id: Date.now(),
     date: newDate.value,
     place: newPlace.value.trim(),
     description: newDesc.value.trim(),
     images: [...newImages.value],
     author: newAuthor.value
-  })
-  save()
+  }]
   newPlace.value = ''
   newDesc.value = ''
   newImages.value = []
-
-  if (hasGithubConfig()) {
-    await saveRemote('places', raw.value)
-  }
+  await save(newList)
 }
 
-onMounted(async () => {
-  if (!raw.value.length) {
-    raw.value = [{
-      id: 1,
-      date: '2025-11-01',
-      place: '北京环球影城',
-      description: '11月一起去了北京的环球影城，玩得超开心',
-      images: [],
-      author: 'xiaoyu'
-    }]
-    save()
-  }
-  if (hasGithubConfig()) {
-    const remote = await loadRemote('places')
-    if (remote && remote.data && remote.data.length) {
-      const map = new Map()
-      remote.data.forEach(d => map.set(d.id, d))
-      raw.value.forEach(d => map.set(d.id, d))
-      raw.value = [...map.values()]
-      save()
-    }
-  }
-})
+onMounted(() => init())
 </script>
