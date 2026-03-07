@@ -112,16 +112,35 @@ const getDeviceInfo = () => {
 const guessIPhone = (h, w, r) => {
   const key = `${Math.max(h, w)}_${Math.min(h, w)}_${r}`
   const map = {
-    '932_430_3': 'iPhone 15 Pro Max / 16 Plus',
-    '852_393_3': 'iPhone 15 Pro / 16',
-    '896_414_3': 'iPhone 15 / 14 / 13 / 12',
+    // iPhone 17 系列 (2025)
+    '956_440_3': 'iPhone 17 Pro Max',
+    '874_402_3': 'iPhone 17 Pro',
+    '852_393_3': 'iPhone 17 / 16',
+    '932_430_3': 'iPhone 17 Air / 16 Plus',
+    // iPhone 16 系列 (2024)
+    // 16 Pro Max: 440x956 @3x (同 17 Pro Max)
+    // 16 Pro: 402x874 @3x (同 17 Pro)
+    // 16: 393x852 @3x (同 17)
+    // 16 Plus: 430x932 @3x (同 17 Air)
+    // iPhone 15 系列 (2023)
+    // 15 Pro Max: 430x932 @3x
+    // 15 Pro: 393x852 @3x
+    // 15 Plus: 430x932 @3x
+    // 15: 393x852 @3x
+    // iPhone 14 系列
     '844_390_3': 'iPhone 14 / 13',
     '926_428_3': 'iPhone 14 Plus / 13 Pro Max',
-    '812_375_3': 'iPhone 13 mini / 12 mini / X',
-    '736_414_3': 'iPhone 8 Plus',
-    '667_375_2': 'iPhone 8 / SE2 / SE3'
+    // iPhone 13 系列
+    '812_375_3': 'iPhone 13 mini / 12 mini',
+    // iPhone 12 系列
+    '896_414_3': 'iPhone 12 / 11',
+    '896_414_2': 'iPhone XR / 11',
+    // 旧机型
+    '736_414_3': 'iPhone 8 Plus / 7 Plus',
+    '667_375_2': 'iPhone SE3 / SE2 / 8',
+    '568_320_2': 'iPhone SE1 / 5s'
   }
-  return map[key] || `iPhone (${key})`
+  return map[key] || `iPhone`
 }
 
 // 通过 WebGL 推断 Mac 型号

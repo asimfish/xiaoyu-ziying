@@ -28,7 +28,6 @@
           <div class="text-2xl font-serif text-ink">{{ dayPageCount }}</div>
           <div class="text-xs text-light-ink mt-1">页面浏览量</div>
         </div>
-<!-- PLACEHOLDER_OVERVIEW -->
       </div>
 
       <!-- 饼状图区域 -->
