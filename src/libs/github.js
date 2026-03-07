@@ -8,10 +8,11 @@ const headers = (token) => ({
   'Content-Type': 'application/json'
 })
 
-// 读取文件内容
+// 读取文件内容（禁用浏览器缓存，GitHub API 默认 max-age=60 会导致轮询拿到旧数据）
 export const readFile = async (token, owner, repo, path) => {
   const res = await fetch(`${API_BASE}/repos/${owner}/${repo}/contents/${path}`, {
-    headers: headers(token)
+    headers: headers(token),
+    cache: 'no-store'
   })
   if (res.status === 404) return { content: null, sha: null }
   if (!res.ok) return { content: null, sha: null, error: `${res.status} ${res.statusText}` }
@@ -61,7 +62,8 @@ export const uploadImage = async (token, owner, repo, path, base64Content) => {
 // 测试连接
 export const testConnection = async (token, owner, repo) => {
   const res = await fetch(`${API_BASE}/repos/${owner}/${repo}`, {
-    headers: headers(token)
+    headers: headers(token),
+    cache: 'no-store'
   })
   return res.ok
 }
