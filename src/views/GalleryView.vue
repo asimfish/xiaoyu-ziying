@@ -31,17 +31,20 @@
     </div>
 
     <!-- photo wall -->
-    <div class="photo-wall">
-      <img
-        v-for="(src, i) in filteredImages" :key="i"
-        :src="src" alt=""
-        class="cursor-pointer"
-        loading="lazy"
-        @click="openLightbox(src)"
-      >
-    </div>
+    <template v-if="galleryLoaded">
+      <div class="photo-wall">
+        <img
+          v-for="(src, i) in filteredImages" :key="i"
+          :src="src" alt=""
+          class="cursor-pointer"
+          loading="lazy"
+          @click="openLightbox(src)"
+        >
+      </div>
 
-    <p v-if="!filteredImages.length" class="text-center text-light-ink py-16">暂无该月份的图片</p>
+      <p v-if="!filteredImages.length" class="text-center text-light-ink py-16">暂无该月份的图片</p>
+    </template>
+    <p v-else class="text-center text-light-ink py-16 animate-pulse">加载中...</p>
   </div>
 </template>
 <script setup>
@@ -58,6 +61,7 @@ const { loadRemote, saveRemote } = useGithubSync()
 const uploadedImages = ref([])
 // 手动添加的空月份
 const extraMonths = ref([])
+const galleryLoaded = ref(false)
 
 const showAddMonth = ref(false)
 const newMonth = ref('')
@@ -68,6 +72,7 @@ onMounted(async () => {
     uploadedImages.value = remote.data.images || []
     extraMonths.value = remote.data.months || []
   }
+  galleryLoaded.value = true
 })
 
 // 上传成功后持久化
@@ -126,12 +131,21 @@ const months = computed(() => {
   return [...set]
 })
 
+const reverseMonthMap = { '一月': 1, '二月': 2, '三月': 3, '四月': 4, '五月': 5, '六月': 6, '七月': 7, '八月': 8, '九月': 9, '十月': 10, '十一月': 11, '十二月': 12 }
+
+// 把 "2025年十月" 转成数字 202510 用于排序
+const monthSortKey = (label) => {
+  const match = label.match(/(\d{4})年(.+)/)
+  if (!match) return 0
+  return parseInt(match[1]) * 100 + (reverseMonthMap[match[2]] || 0)
+}
+
 // 按时间倒序排列月份
 const sortedMonths = computed(() =>
   [...months.value].sort((a, b) => {
     if (a === '其他') return 1
     if (b === '其他') return -1
-    return b.localeCompare(a)
+    return monthSortKey(b) - monthSortKey(a)
   })
 )
 

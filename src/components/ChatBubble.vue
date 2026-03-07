@@ -6,7 +6,7 @@
         ? 'bg-deep-rose text-white rounded-br-sm'
         : 'bg-white text-ink shadow-[0_2px_8px_rgba(0,0,0,0.06)] rounded-bl-sm'"
     >
-      <div class="whitespace-pre-line">{{ text }}</div>
+      <div class="whitespace-pre-line break-words">{{ text }}</div>
     </div>
   </div>
 </template>

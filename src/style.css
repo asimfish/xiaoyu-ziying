@@ -83,6 +83,10 @@ body {
   .photo-wall { column-count: 2; }
 }
 
+/* hide scrollbar for nav */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* lightbox */
 .lightbox-overlay {
   position: fixed;

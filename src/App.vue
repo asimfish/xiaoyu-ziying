@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, computed, provide, watch } from 'vue'
+import { ref, computed, provide, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 
@@ -35,5 +35,11 @@ watch(() => route.path, (path) => {
 
 const lightboxSrc = ref('')
 const openLightbox = (src) => { lightboxSrc.value = src }
+const closeLightbox = () => { lightboxSrc.value = '' }
 provide('openLightbox', openLightbox)
+
+// ESC 关闭 lightbox
+const onKeydown = (e) => { if (e.key === 'Escape') closeLightbox() }
+onMounted(() => document.addEventListener('keydown', onKeydown))
+onUnmounted(() => document.removeEventListener('keydown', onKeydown))
 </script>

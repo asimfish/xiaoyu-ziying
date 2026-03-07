@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 
 import { compressImage } from '@/libs/image'
 import { uploadImage } from '@/libs/github'
@@ -35,6 +35,11 @@ const { githubToken, githubOwner, githubRepo, hasGithubConfig } = useSettings()
 const uploading = ref(false)
 const error = ref('')
 const previews = ref([])
+
+// 组件卸载时释放 blob URL
+onUnmounted(() => {
+  previews.value.forEach(p => URL.revokeObjectURL(p.url))
+})
 
 const formatSize = (bytes) => {
   if (bytes < 1024) return bytes + 'B'
