@@ -1,8 +1,8 @@
 {
   "小鱼": {
-    "lastSeen": "2026-03-08 01:28:18",
-    "page": "/diary",
-    "pageName": "日记"
+    "lastSeen": "2026-03-08 01:30:18",
+    "page": "/gallery",
+    "pageName": "相册"
   },
   "梓樱": {
     "lastSeen": "2026-03-07 23:25:04",
@@ -10,7 +10,7 @@
     "pageName": "相册"
   },
   "root": {
-    "lastSeen": "2026-03-08 01:30:18",
+    "lastSeen": "2026-03-08 01:29:18",
     "page": "/admin",
     "pageName": "管理"
   }
