@@ -101,7 +101,9 @@
     "weather": "cloudy",
     "date": "2026-03-08 00:29:48",
     "author": "xiaoyu",
-    "likes": [],
+    "likes": [
+      "root"
+    ],
     "reactions": {},
     "comments": [],
     "edited": false
