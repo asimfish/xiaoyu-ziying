@@ -2247,8 +2247,29 @@
         "path": "/admin",
         "name": "管理",
         "enter": "2026-03-08 13:45:26",
-        "leave": "2026-03-08 13:45:31",
-        "duration": 5
+        "leave": "2026-03-08 13:45:40",
+        "duration": 14
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-08 13:45:40",
+        "leave": "2026-03-08 13:45:41",
+        "duration": 1
+      },
+      {
+        "path": "/chat",
+        "name": "聊天",
+        "enter": "2026-03-08 13:45:41",
+        "leave": "2026-03-08 13:45:45",
+        "duration": 4
+      },
+      {
+        "path": "/calendar",
+        "name": "日历",
+        "enter": "2026-03-08 13:45:45",
+        "leave": "",
+        "duration": 0
       }
     ],
     "actions": [
