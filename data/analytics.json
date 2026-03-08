@@ -2240,8 +2240,8 @@
         "path": "/diary",
         "name": "日记",
         "enter": "2026-03-08 13:45:15",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-08 13:45:20",
+        "duration": 5
       }
     ],
     "actions": [
