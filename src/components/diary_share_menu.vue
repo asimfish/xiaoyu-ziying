@@ -61,7 +61,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const siteUrl = computed(() => window.location.origin + window.location.pathname)
+const siteUrl = computed(() => window.location.origin + import.meta.env.BASE_URL)
 
 const shareText = computed(() => {
   if (!props.diary) return ''
