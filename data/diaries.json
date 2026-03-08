@@ -227,7 +227,15 @@
     "author": "xiaoyu",
     "likes": [],
     "reactions": {},
-    "comments": [],
+    "comments": [
+      {
+        "id": 1772948816851,
+        "author": "xiaoyu",
+        "content": "不错",
+        "date": "2026-03-08 13:46:56",
+        "replyTo": null
+      }
+    ],
     "edited": false
   }
 ]
