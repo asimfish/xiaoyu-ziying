@@ -103,5 +103,20 @@
       }
     ],
     "edited": false
+  },
+  {
+    "id": 1772952555741,
+    "title": "测试",
+    "content": "新功能测试",
+    "images": [],
+    "mood": "excited",
+    "weather": "cloudy",
+    "location": "",
+    "date": "2026-03-08 14:49:15",
+    "author": "xiaoyu",
+    "likes": [],
+    "reactions": {},
+    "comments": [],
+    "edited": false
   }
 ]
