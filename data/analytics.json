@@ -2268,8 +2268,8 @@
         "path": "/calendar",
         "name": "日历",
         "enter": "2026-03-08 13:45:45",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-08 13:45:50",
+        "duration": 5
       }
     ],
     "actions": [
