@@ -228,7 +228,11 @@
     "likes": [
       "xiaoyu"
     ],
-    "reactions": {},
+    "reactions": {
+      "😂": [
+        "xiaoyu"
+      ]
+    },
     "comments": [
       {
         "id": 1772948816851,
