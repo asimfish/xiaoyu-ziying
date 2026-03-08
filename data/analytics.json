@@ -2289,8 +2289,15 @@
         "path": "/food",
         "name": "美食",
         "enter": "2026-03-08 13:46:44",
-        "leave": "",
-        "duration": 0
+        "leave": "2026-03-08 13:46:48",
+        "duration": 4
+      },
+      {
+        "path": "/diary",
+        "name": "日记",
+        "enter": "2026-03-08 13:46:48",
+        "leave": "2026-03-08 13:46:53",
+        "duration": 5
       }
     ],
     "actions": [
