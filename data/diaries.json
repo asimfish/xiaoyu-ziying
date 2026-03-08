@@ -114,8 +114,14 @@
     "location": "",
     "date": "2026-03-08 14:49:15",
     "author": "xiaoyu",
-    "likes": [],
-    "reactions": {},
+    "likes": [
+      "xiaoyu"
+    ],
+    "reactions": {
+      "🥺": [
+        "xiaoyu"
+      ]
+    },
     "comments": [],
     "edited": false
   }
