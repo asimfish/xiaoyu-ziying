@@ -225,7 +225,9 @@
     "weather": "sunny",
     "date": "2026-03-08 13:46:36",
     "author": "xiaoyu",
-    "likes": [],
+    "likes": [
+      "xiaoyu"
+    ],
     "reactions": {},
     "comments": [
       {
