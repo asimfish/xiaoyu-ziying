@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小鱼与梓樱 · 纪念册</title>
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin>
+  <link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/xiaoyu-ziying/assets/index-DT9R_QsE.js"></script>
+  <link rel="modulepreload" crossorigin href="/xiaoyu-ziying/assets/vue-vendor-JJauJedW.js">
+  <link rel="stylesheet" crossorigin href="/xiaoyu-ziying/assets/index-DBNixCpk.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    // 还原 404.html 重定向的 SPA 路由
+    (function() {
+      var q = new URLSearchParams(location.search)
+      var p = q.get('p')
+      if (p) {
+        q.delete('p')
+        var search = q.toString() ? '?' + q.toString() : ''
+        history.replaceState(null, '', location.pathname.replace(/\/$/, '') + p + search + location.hash)
+      }
+    })()
+  </script>
+</body>
+</html>
