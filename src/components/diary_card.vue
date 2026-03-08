@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5 mb-4">
+  <div class="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] p-5 mb-4 transition-shadow duration-300 hover:shadow-[0_4px_24px_rgba(0,0,0,0.1)]">
     <!-- 头部：头像 + 昵称 + 时间 + 标签 + 菜单 -->
     <div class="flex items-start gap-3">
-      <img :src="user.avatar" alt="" class="w-10 h-10 rounded-full object-cover shrink-0">
+      <img :src="user.avatar" alt="" class="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-warm">
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2">
           <span class="text-sm font-medium" :class="diary.author === 'xiaoyu' ? 'text-deep-rose' : 'text-friend-blue'">{{ user.label }}</span>
@@ -11,6 +11,7 @@
         </div>
         <div class="flex items-center gap-1.5 text-xs text-light-ink/70 mt-0.5">
           <span>{{ relativeTimeStr(diary.date) }}</span>
+          <span v-if="diary.location" class="text-light-ink/50">. {{ diary.location }}</span>
           <span v-if="diary.edited" class="text-light-ink/50">. 已编辑</span>
         </div>
       </div>
@@ -27,7 +28,7 @@
     </div>
 
     <!-- 标题 -->
-    <h3 v-if="diary.title" class="font-serif text-lg text-ink mt-3">{{ diary.title }}</h3>
+    <h3 v-if="diary.title" class="font-serif text-lg text-ink mt-3 font-semibold">{{ diary.title }}</h3>
 
     <!-- 正文 -->
     <p class="text-ink leading-[1.8] whitespace-pre-line break-words mt-2">{{ diary.content }}</p>
@@ -47,6 +48,7 @@
       @like="$emit('like', diary.id)"
       @react="(emoji) => $emit('react', { diaryId: diary.id, emoji })"
       @toggle-comments="showComments = !showComments"
+      @share="showShareMenu = true"
     />
 
     <!-- 评论区 -->
@@ -56,6 +58,9 @@
       :current-user="currentUser"
       @submit="(payload) => $emit('comment', { diaryId: diary.id, ...payload })"
     />
+
+    <!-- 分享菜单 -->
+    <DiaryShareMenu :visible="showShareMenu" :diary="diary" @close="showShareMenu = false" />
   </div>
 </template>
 
@@ -66,6 +71,7 @@ import { USERS, relativeTimeStr, moodLabel, weatherLabel } from '@/libs/diary_he
 import DiaryImageGrid from '@/components/diary_image_grid.vue'
 import DiaryReactionBar from '@/components/diary_reaction_bar.vue'
 import DiaryCommentSection from '@/components/diary_comment_section.vue'
+import DiaryShareMenu from '@/components/diary_share_menu.vue'
 
 const props = defineProps({
   diary: { type: Object, required: true },
@@ -76,6 +82,7 @@ const emit = defineEmits(['like', 'react', 'comment', 'edit', 'delete'])
 
 const showMenu = ref(false)
 const showComments = ref(false)
+const showShareMenu = ref(false)
 
 const user = computed(() => USERS[props.diary.author] ?? { label: props.diary.author, avatar: '' })
 const isOwner = computed(() => props.diary.author === props.currentUser)

@@ -2,7 +2,7 @@
   <div v-if="images.length" class="mt-3" :class="gridClass">
     <div
       v-for="(src, i) in images" :key="i"
-      class="relative overflow-hidden rounded-lg cursor-pointer bg-warm/30"
+      class="relative overflow-hidden rounded-xl cursor-pointer bg-warm/30 img-hover-zoom"
       :class="itemClass(i)"
       @click="openLightbox(src)"
     >

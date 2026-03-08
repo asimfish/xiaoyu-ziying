@@ -39,8 +39,15 @@ export const WEATHERS = [
   { key: 'windy', label: '风' }
 ]
 
-// 表情反应选项
-export const REACTION_EMOJIS = ['\u2764\uFE0F', '\uD83D\uDE02', '\uD83D\uDE22', '\uD83D\uDE2E', '\uD83D\uDC4D', '\uD83C\uDF89']
+// 表情反应选项（常用，快捷显示在反应栏）
+export const REACTION_EMOJIS = ['❤️', '👍', '😂', '😢', '😮', '🎉', '🥰', '😡', '🤗', '👏']
+
+// 表情分类（用于选择器弹窗）
+export const EMOJI_CATEGORIES = [
+  { name: '常用', emojis: ['❤️', '👍', '😂', '😢', '😮', '🎉', '🥰', '😡', '🤗', '👏'] },
+  { name: '可爱', emojis: ['🥺', '😘', '💕', '✨', '🌸', '🍀', '🎀', '💫'] },
+  { name: '食物', emojis: ['🍰', '🧋', '🍜', '🍦', '🍓', '🔥'] }
+]
 
 // 标准化动态数据（兼容旧日记）
 export const normalizeDiary = (d) => ({
@@ -52,7 +59,8 @@ export const normalizeDiary = (d) => ({
   likes: d.likes ?? [],
   reactions: d.reactions ?? {},
   comments: d.comments ?? [],
-  edited: d.edited ?? false
+  edited: d.edited ?? false,
+  location: d.location ?? ''
 })
 
 // 相对时间

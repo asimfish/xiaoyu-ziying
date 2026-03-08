@@ -99,6 +99,7 @@ const onSubmit = async (payload) => {
     images: payload.images,
     mood: payload.mood,
     weather: payload.weather,
+    location: payload.location,
     date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     author: payload.author,
     likes: [],
