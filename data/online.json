@@ -11,7 +11,7 @@
   },
   "root": {
     "lastSeen": "2026-03-09 15:29:00",
-    "page": "/chat",
-    "pageName": "聊天"
+    "page": "/admin",
+    "pageName": "管理"
   }
 }
